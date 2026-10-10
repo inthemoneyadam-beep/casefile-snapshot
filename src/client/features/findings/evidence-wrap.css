@@ -1,0 +1,16 @@
+/*
+ * Evidence rows whose links column wraps (2026-10 review): a long citation chip ("Example Reference Lab CSF and serum
+ * report, 2019-09-23 · p.3") takes at most 16rem and wraps, so the evidence text and its quote keep the row's width
+ * instead of being squeezed into one word per line. Loaded by FindingDetail.tsx (findings.css is not this feature's).
+ */
+.evidence-row.evidence-wrap {
+  grid-template-columns: 112px minmax(0, 1fr) minmax(0, 16rem);
+}
+.evidence-row.evidence-wrap .evidence-links {
+  white-space: normal;
+  text-align: right;
+  min-width: 0;
+}
+.evidence-row.evidence-wrap .evidence-links .cite {
+  overflow-wrap: anywhere;
+}

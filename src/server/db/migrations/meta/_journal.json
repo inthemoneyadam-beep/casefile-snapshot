@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1791178639313,
+      "tag": "0000_amazing_sabra",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791186408930,
+      "tag": "0001_daily_valkyrie",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791220331294,
+      "tag": "0002_peaceful_random",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1791230092838,
+      "tag": "0003_mighty_proteus",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1791360544882,
+      "tag": "0004_lab_values_as_printed",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1791410816663,
+      "tag": "0005_segments_and_messages",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1791588460725,
+      "tag": "0006_care_team_and_plans",
+      "breakpoints": true
+    }
+  ]
+}

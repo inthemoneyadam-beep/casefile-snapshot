@@ -1,0 +1,1 @@
+ALTER TABLE `facts` ADD `verdict_basis` text;

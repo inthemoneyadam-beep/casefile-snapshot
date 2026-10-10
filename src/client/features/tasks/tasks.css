@@ -1,0 +1,158 @@
+/*
+ * To-do list cells and the daily-plan printable. Colours and sizes from
+ * tokens.css only; 8px rhythm; sentence case. Everything else is the shared
+ * system (base.css).
+ */
+
+/* A tag before a to-do's title in the list ("overdue", "in progress", "done" on All). */
+.tk-title-cell .tag {
+  margin-right: var(--sp-3);
+}
+
+/* The small "Added ..., changed ..." line at the end of the pane. */
+.tk-stamp {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.tk-detail-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 68ch;
+  line-height: var(--lh-prose);
+}
+.tk-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-4) var(--sp-5);
+}
+.tk-form .full {
+  grid-column: 1 / -1;
+}
+.tk-form .field label {
+  text-transform: none;
+}
+.tk-form textarea,
+.tk-form input,
+.tk-form select {
+  width: 100%;
+}
+
+/* ------------------------------------------------------------------ */
+/* Daily plan printable                                               */
+/* ------------------------------------------------------------------ */
+.toolbar.dp-toolbar input.dp-date {
+  width: 160px;
+}
+.dp-page {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.dp-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+}
+.dp-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0 24pt;
+}
+.dp-grid .wide {
+  grid-column: 1 / -1;
+}
+.dp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dp-list li {
+  display: grid;
+  grid-template-columns: 14pt minmax(0, 1fr) auto;
+  gap: 6pt;
+  align-items: baseline;
+  padding: 2.5pt 0;
+  border-bottom: 1px solid var(--border);
+}
+.dp-list li .when {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.dp-list li .sub {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.85em;
+}
+.dp-box {
+  display: inline-block;
+  width: 10pt;
+  height: 10pt;
+  border: 1px solid var(--border-strong);
+  border-radius: 1px;
+  vertical-align: -1pt;
+}
+.dp-boxes {
+  display: inline-flex;
+  gap: 4pt;
+}
+.dp-owner {
+  margin: 8pt 0 2pt;
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.dp-scale {
+  display: inline-flex;
+  gap: 3pt;
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+}
+.dp-scale span {
+  width: 13pt;
+  height: 13pt;
+  border: 1px solid var(--border-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-faint);
+}
+.dp-scale span.on {
+  background: var(--accent-soft);
+  color: var(--text);
+  border-color: var(--accent);
+}
+.dp-lines {
+  margin-top: 4pt;
+}
+.dp-lines div {
+  height: 18pt;
+  border-bottom: 1px solid var(--border-strong);
+}
+.dp-empty {
+  color: var(--text-faint);
+  font-size: 0.9em;
+  padding: 2pt 0;
+}
+.dp-notes {
+  white-space: pre-wrap;
+  margin: 0 0 4pt;
+}
+.printable .dp-table td,
+.printable .dp-table th {
+  height: auto;
+  padding: 2pt 6pt;
+  white-space: normal;
+  vertical-align: top;
+}
+.printable .dp-table th {
+  position: static;
+}
+.printable .hardstop {
+  margin: 6pt 0 10pt;
+}

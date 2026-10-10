@@ -1,0 +1,429 @@
+/* Lab results. Colours and sizes come from tokens.css only. The toolbar, the
+   segmented switches, the detail pane anatomy and the section headers are the
+   shared system's (base.css); this file only adds what the lab tables and the
+   trend need. */
+
+/* A value with its unit ("88 mg/dL") and, when it is outside the normal range,
+   its red "high" / "low" tag. Numbers in the mono, the unit muted. */
+.labs-value {
+  font-family: var(--font-mono);
+}
+.labs-unit {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+.labs-value .tag,
+.labs-val .tag {
+  vertical-align: 1px;
+}
+/* "· all high": a test's readings outside the normal range (the chart's red). */
+.labs-out {
+  color: var(--danger);
+}
+
+/* The detail title of one value: the test's name in the serif, its value in the mono beside it. */
+.labs-title-value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-lg);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* The trend. */
+.labs-chart {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-4) var(--sp-4) var(--sp-3);
+  background: var(--surface);
+}
+.labs-unit-charts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+/* What red, the ring, the line and the band mean, said under the chart in readable words. */
+.labs-chart-note {
+  margin: var(--sp-3) 0 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  max-width: 80ch;
+}
+
+/* The values table under a test, and the results list of a test in words. */
+.labs-results th {
+  position: static;
+}
+.labs-results td,
+.labs-results th {
+  height: 30px;
+  font-size: var(--fs-md);
+  vertical-align: middle;
+}
+.labs-results tbody tr {
+  cursor: pointer;
+}
+.labs-results tbody tr:hover {
+  background: var(--surface-hover);
+}
+/* The readings under a test (and the results of a test in words): three columns. Date and Value are as wide as
+   their content (a 1% width on an auto table: the column takes its content's width, no more); a long value wraps
+   inside its cap. From takes the rest: the document's name, wrapping to two lines before it ends with "…" (the whole
+   on hover), and under it one small line with the check tag, the page, the document's date when it is not the
+   reading's, "from one line" and "and 3 more". The test's normal range is in the key facts, not on every row. */
+.labs-results.labs-values,
+.labs-results.labs-words {
+  table-layout: auto;
+  width: 100%;
+}
+.labs-detail {
+  container-type: inline-size;
+  container-name: labs-pane;
+}
+.labs-results th.labs-c-date,
+.labs-results td.labs-c-date {
+  width: 1%;
+  white-space: nowrap;
+}
+.labs-results th.labs-c-value,
+.labs-results td.labs-c-value {
+  width: 1%;
+}
+/* The value's own width, up to a cap: "94 mg/dL high" on one line; "15 raw, about 10 corrected" wraps. */
+.labs-val-fit {
+  display: block;
+  width: max-content;
+  max-width: min(176px, 34cqw);
+}
+.labs-results td.labs-val {
+  white-space: normal;
+}
+.labs-own-ref {
+  display: block;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+
+/* Where a value came from (AnalyteDetail.tsx SourceCell): "2024-09-17 · Lab report, p.1", the date in the mono. */
+.labs-from {
+  display: block;
+  min-width: 0;
+}
+.labs-from-date {
+  font-family: var(--font-mono);
+  font-size: calc(var(--fs-md) - 1px);
+}
+/* In a test's readings: the document's name takes the first two lines ("…" only after the second); then the small
+   line, whose parts wrap whole, "·" between them and never at the start of a line (base.css sep-list). */
+.labs-results td.src {
+  line-height: 1.4;
+}
+.labs-from-stack > a {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+.labs-from-sub {
+  display: block;
+  /* Clips the "·" before a part that starts a line (the row is shifted left by one separator slot). */
+  overflow: hidden;
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+.labs-from-sub .sep-row {
+  row-gap: 0;
+}
+.labs-from-sub .sep-item {
+  white-space: nowrap;
+}
+.labs-from-sub .tag {
+  vertical-align: 1px;
+}
+.labs-from-page,
+.labs-from-sub .labs-from-date {
+  font-family: var(--font-mono);
+  font-size: calc(var(--fs-sm) - 0.5px);
+}
+.labs-from-sub .labs-from-date {
+  cursor: help;
+}
+.labs-from-sub .labs-fromline {
+  margin-left: 0;
+  cursor: help;
+}
+.labs-results td {
+  padding-top: var(--sp-2);
+  padding-bottom: var(--sp-2);
+}
+.labs-results td.src a {
+  color: var(--text-muted);
+}
+.labs-results tr.selected {
+  background: var(--surface-selected);
+}
+.labs-results tr.dim {
+  color: var(--text-muted);
+}
+
+.labs-val-num {
+  font-family: var(--font-mono);
+}
+/* "and 3 more": the copies of one reading in other documents (each named on hover). */
+.labs-copies {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+  cursor: help;
+}
+
+.labs-quote {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border-left: 2px solid var(--warn);
+  background: var(--highlight);
+  color: var(--text);
+  padding: var(--sp-4) var(--sp-5);
+  margin: 0;
+}
+.labs-quote.verified {
+  border-left-color: var(--accent);
+}
+.labs-added {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.labs-line-note {
+  margin-top: calc(-1 * var(--sp-4));
+}
+
+.labs-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-5) var(--sp-6);
+}
+.labs-form-grid .full {
+  grid-column: 1 / -1;
+}
+.labs-form-grid .field label {
+  text-transform: none;
+}
+.labs-form-grid .three {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-5);
+  grid-column: 1 / -1;
+}
+
+/* By document: the document's date and name in a group row, then its kind, where it came from and Open the
+   document. The date leads (never cut); the name wraps to two lines before it ends with "…" (the whole on hover),
+   so the end of a long name stays in view. */
+.group-header .group-row > .group-header-title > .labs-doc-head {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: clip;
+  max-width: 56ch;
+  padding: var(--sp-2) 0;
+  line-height: var(--lh-tight);
+}
+.group-header .labs-doc-title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-group);
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+}
+.group-header .labs-doc-date,
+.group-header .labs-doc-date .mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+/* A document's header may take two lines, so its panel rows scroll with the values instead of sticking under it
+   at a one-line offset (they would cover its second line). */
+.data-table:has(.labs-doc-head) .group-subheader > th {
+  position: static;
+}
+.group-header time {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-muted);
+}
+.group-header .labs-doc-open {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}
+
+/* A line that held several tests. One part of it: the line as written, muted, after the test's name in a list, or on
+   a line of its own in a detail. A line that could not be split: a small plain label. */
+.labs-fromline {
+  margin-left: var(--sp-1);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+  cursor: help;
+}
+.labs-fromline.block {
+  display: block;
+  margin-left: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.labs-linemark {
+  margin-left: var(--sp-1);
+}
+/* All values: the note about a value's line on a line of its own under the test's two-line name. */
+.labs-linenote-row {
+  margin-top: 2px;
+  line-height: 1.3;
+}
+.labs-linenote-row .labs-linemark,
+.labs-linenote-row .labs-fromline {
+  margin-left: 0;
+}
+/* In a narrow Test column the tag's words wrap inside it rather than run past the cell's edge. */
+.labs-linenote-row .tag {
+  max-width: 100%;
+  height: auto;
+  min-height: 20px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  white-space: normal;
+  line-height: 1.25;
+}
+.detail-eyebrow .labs-linemark,
+.labs-subline .labs-linemark {
+  margin-left: 0;
+}
+/* The values table under a test: the note sits on a row under its value. */
+.labs-results tr.has-subline > td {
+  border-bottom: 0;
+}
+.labs-results tr.labs-subline > td {
+  height: auto;
+  padding-bottom: var(--sp-3);
+  white-space: normal;
+}
+
+/* A test whose results are all words: no chart, a compact dated list. A positive or abnormal result carries a small
+   plain mark and its words in a heavier weight; a normal one stays quiet. */
+.labs-nochart {
+  margin-bottom: var(--sp-2);
+}
+.labs-results.labs-words td.labs-word {
+  white-space: normal;
+  /* Whole words wrap; only a word longer than the cell breaks ("Negative" never becomes "Negat ive"). */
+  overflow-wrap: break-word;
+  min-width: 9ch;
+}
+.labs-results.labs-words tr.marked .labs-word-value {
+  font-weight: var(--fw-semibold);
+}
+.labs-word-mark {
+  margin-left: var(--sp-3);
+}
+
+/* "Test: CSF protein  Show every test" in the toolbar, when the list is narrowed to one test. */
+.labs-filter-test {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-md);
+}
+
+/* The page a value came from, as a plain link in a table or a key fact ("Lab report, 2024-09-17, p.1"). */
+.labs-source {
+  color: var(--accent-strong);
+}
+.labs-source.unverified {
+  color: var(--warn);
+}
+/* A value wraps after a slash or comma or at a space (Breakable), never inside a word. */
+.labs-value {
+  overflow-wrap: normal;
+}
+
+/* 2026-10, lab values as printed: a key fact with a muted line under it ("As printed: 0.8", "printed by Example Reference Lab",
+   "The document does not say whether ..."), the value's warnings and its open lab findings. */
+.labs-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.labs-fact-note {
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+}
+.labs-warnings,
+.labs-issues {
+  margin-top: var(--sp-4);
+}
+.labs-issue-line {
+  display: block;
+  margin-top: var(--sp-1);
+}
+.labs-issue-links {
+  margin-top: var(--sp-2);
+  gap: var(--sp-4);
+}
+/* A reading's own range under its value, when the test's readings print several ("range 0–35 · Example Reference Lab"). */
+.labs-own-ref .labs-own-lab {
+  color: var(--text-faint);
+}
+/* Normal ranges as printed, one per line in the test's key facts: "15–45 mg/dL · Anvale · 3 readings". */
+.labs-ranges {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.labs-ranges .labs-range-claim {
+  color: var(--text-muted);
+}
+
+/* The "Values re-read" report (ReparseReport.tsx): one plain line per change, counts in the mono. */
+.labs-reparse {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.labs-reparse ul {
+  margin: 0;
+  padding-left: var(--sp-6);
+}
+.labs-reparse li + li {
+  margin-top: var(--sp-2);
+}
+.labs-reparse .labs-reparse-examples li {
+  color: var(--text-muted);
+}
+/* The value's and the test's key facts: one label column wide enough for "Flag in this document", so the values line up. */
+.labs-detail .key-fact {
+  grid-template-columns: minmax(10.5em, max-content) minmax(0, 1fr);
+}
+
+/* A value the app added from the page itself (the lab check, or the clinician at your request; 2026-10-08). */
+.labs-added-note {
+  margin: 0 0 var(--sp-4);
+  color: var(--text);
+  font-size: var(--fs-md);
+  line-height: var(--lh-table);
+}

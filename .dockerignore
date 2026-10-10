@@ -1,0 +1,40 @@
+# What never goes into the image build (Docker rules: every line is relative to the top of the project; "**/" means
+# at any depth; a folder that matches takes everything inside it; names compare with case, hence the [xX] classes).
+# Keep in step with .railwayignore. No "!" lines: scripts/deploy-ignore.ts proves with this file that nothing
+# private is sent (npm run deploy:check).
+
+# The case, the records, backups and anything set aside: never.
+[dD][aA][tT][aA]
+[dD][aA][tT][aA].*
+[dD][aA][tT][aA]-*
+[fF][iI][lL][eE][sS]
+[bB][aA][cC][kK][uU][pP][sS]
+[sS][eE][tT]-[aA][sS][iI][dD][eE]
+*.[bB][aA][kK]*
+*.[sS][eE][tT]-[aA][sS][iI][dD][eE]*
+**/*.[pP][dD][fF]
+**/*.[dD][bB]
+**/*.[dD][bB]-*
+**/*.[sS][qQ][lL][iI][tT][eE]*
+**/[kK][eE][yY][rR][iI][nN][gG]*.[jJ][sS][oO][nN]
+**/[kK][eE][yY][rR][iI][nN][gG]-[bB][aA][cC][kK][uU][pP][sS]
+**/*.[zZ][iI][pP]
+
+# Local tools, builds and scratch.
+.git
+.claude
+.tanstack
+.tmp
+**/.tmp
+.tscache
+.vite
+node_modules
+**/node_modules
+dist
+coverage
+tests
+**/*.log
+.env*
+**/.env*
+*.cmd
+AGENTS.md

@@ -1,0 +1,610 @@
+/* Ask the clinician: the page's conversation pane, the thread, the composer and the dock. Colours and sizes come
+   from tokens.css only. Words are in the sans at readable sizes; only data (times, costs, dates) is in the mono. */
+
+/* The page's right pane: the conversation's header, then the thread and the composer. */
+.ask-pane {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.ask-pane > .consult {
+  flex: 1;
+  height: auto;
+}
+/* The conversation's header is the shared DetailHeader; this only frames it above the thread. */
+.ask-head {
+  padding: var(--sp-5) var(--page-x);
+  border-bottom: 1px solid var(--border);
+}
+
+/* The conversations list: the name (two lines at most), then how many messages and the depth. */
+.ask-session-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  padding: 2px 0;
+}
+.ask-session-title {
+  color: var(--text);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+.ask-session-sub {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.consult {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.consult-thread {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--sp-6) var(--page-x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-7);
+}
+.consult-composer {
+  border-top: 1px solid var(--border-strong);
+  padding: var(--sp-5) var(--page-x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  background: var(--surface);
+}
+.composer-textarea {
+  width: 100%;
+  min-height: 64px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+}
+
+/* An empty conversation: what to do, and a few questions to start with (each fills the box). */
+.ask-empty-thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  max-width: 72ch;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+}
+.ask-empty-thread p {
+  margin: 0;
+}
+.ask-starters-head {
+  font-size: var(--fs-md);
+}
+.ask-starters {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-2);
+}
+.ask-starters .btn {
+  color: var(--accent-strong);
+  text-align: left;
+  white-space: normal;
+  height: auto;
+  min-height: var(--control-height-sm);
+}
+
+/* Composer rows: the send row (Attach … Show reasoning, Ask), the labelled choices, the depth. */
+.ask-send-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-5);
+}
+.ask-send-row > .grow {
+  flex: 1;
+}
+.ask-check {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ask-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4) var(--sp-7);
+}
+.ask-option {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-4);
+  min-width: 0;
+}
+.ask-option .date-range input[type='text'] {
+  width: 92px;
+  height: var(--control-height-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+}
+.consult-composer .ask-depth,
+.dock-composer .ask-depth {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--sp-4);
+}
+.ask-depth > .filter-label {
+  padding-top: 2px;
+}
+.ask-depth-control {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+.ask-depth-control input[type='range'] {
+  width: 100%;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  accent-color: var(--accent);
+}
+.ask-depth-stops {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+.ask-depth-stops button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ask-depth-stops button:hover {
+  color: var(--text);
+}
+.ask-depth-stops button.on {
+  color: var(--accent-strong);
+  font-weight: var(--fw-semibold);
+}
+/* Roughly what the answer costs, what Claude reads and how long it takes: plain words, readable. */
+.ask-cost {
+  margin-top: var(--sp-2);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.4;
+}
+
+/* The thread. */
+.consult-thread .msg-answer {
+  max-width: 78ch;
+}
+.msg-answer .md-p {
+  margin: 0 0 var(--sp-4);
+}
+.msg-answer .md-p:last-child {
+  margin-bottom: 0;
+}
+.msg-answer .md-code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  background: var(--bg-sunken);
+  border: 1px solid var(--border);
+  padding: var(--sp-4);
+  margin: 0 0 var(--sp-4);
+}
+.msg-answer .md-quote {
+  border-left: 2px solid var(--border-strong);
+  padding-left: var(--sp-5);
+  color: var(--text-muted);
+  margin: 0 0 var(--sp-4);
+}
+.msg-answer .md-table th {
+  position: static;
+  background: transparent;
+}
+.msg-answer .md-table td {
+  white-space: normal;
+  font-size: var(--fs-sm);
+}
+.msg-answer code {
+  background: var(--bg-sunken);
+  padding: 0 3px;
+}
+.msg-answer .cite {
+  margin: 0 1px;
+  vertical-align: baseline;
+  line-height: 1;
+}
+.msg-answer button.cite {
+  background: transparent;
+}
+.msg-answer button.cite:disabled {
+  cursor: default;
+  opacity: 0.8;
+}
+.msg-answer hr {
+  margin: var(--sp-4) 0;
+}
+.ask-chart {
+  margin: var(--sp-4) 0;
+  padding: var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+/* The live line while an answer is written, and the line under a finished one: words in the sans. */
+.consult .msg-status {
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  color: var(--warn);
+}
+.consult .msg-foot {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.consult .msg-role {
+  font-size: var(--fs-md);
+}
+/* What the clinician looked up: a folded list of plain lines (the server's own words on hover). */
+.ask-tools {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.ask-tools summary {
+  cursor: pointer;
+  color: var(--text-muted);
+}
+.ask-tools ul {
+  margin: var(--sp-2) 0 0;
+  padding-left: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ask-tools li.bad {
+  color: var(--bad);
+}
+/* What the model wrote before its tool calls: kept, folded, quieter than the answer. */
+.msg-working {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  border-left: 1px solid var(--border);
+  padding-left: var(--sp-5);
+}
+.msg-working summary {
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.msg-working-body {
+  white-space: pre-wrap;
+  max-height: 260px;
+  overflow: auto;
+  margin-top: var(--sp-2);
+}
+.consult-thread .msg-working {
+  max-width: 78ch;
+}
+.consult-readonly {
+  border-top: 1px solid var(--border);
+  padding: var(--sp-4) var(--page-x);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+}
+.consult.compact .consult-readonly {
+  padding: var(--sp-4) var(--sp-6);
+}
+.ask-link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--accent-strong);
+  cursor: pointer;
+  font: inherit;
+}
+.ask-link:hover {
+  text-decoration: underline;
+}
+
+/* The dock: narrower, the same anatomy (the choices are selects there). */
+.dock-session {
+  flex: 1;
+  min-width: 0;
+  height: var(--control-height-sm);
+  font-size: var(--fs-sm);
+  padding: 0 var(--sp-3);
+}
+.dock-composer .ask-options {
+  gap: var(--sp-3) var(--sp-5);
+}
+.dock-composer .ask-cost {
+  font-size: var(--fs-sm);
+}
+.dock-composer .ask-depth-stops button {
+  font-size: var(--fs-xs);
+}
+
+.ask-pick-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 52vh;
+  overflow: auto;
+}
+/* Answer settings: one block per step of Depth, every field labelled. */
+.preset-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+.preset-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.preset-step-head {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--sp-4) var(--sp-6);
+}
+.preset-step-n {
+  align-self: center;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  min-width: 16px;
+}
+.preset-start {
+  display: inline-flex;
+  align-items: center;
+  height: var(--control-height);
+  color: var(--text);
+  font-size: var(--fs-md);
+  cursor: pointer;
+}
+.preset-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4) var(--sp-5);
+}
+.preset-field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
+  max-width: 100%;
+}
+.preset-field > span {
+  color: var(--text-muted);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+}
+.preset-field select,
+.preset-field input {
+  max-width: 100%;
+}
+.preset-field.wide {
+  flex: 1 1 100%;
+}
+.preset-field.wide input {
+  width: 100%;
+}
+.preset-intro {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.ask-page .split > .split-right {
+  overflow: hidden;
+}
+
+/* Printing a consult: the thread only, with its citation markers and a source list
+   (print.css hides every button, so the chips are brought back as plain [n]). */
+@media print {
+  .msg-answer button.cite {
+    display: inline !important;
+    border: 0;
+    background: none;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    font-size: 0.8em;
+    vertical-align: super;
+    opacity: 1;
+  }
+  .msg-answer button.cite::before {
+    content: '[';
+  }
+  .msg-answer button.cite::after {
+    content: ']';
+  }
+  .dock,
+  .consult-composer,
+  .ask-page .split > .split-left,
+  .ask-head .detail-actions,
+  .ask-empty-thread {
+    display: none !important;
+  }
+  .consult,
+  .consult-thread,
+  .dock-thread {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+  .consult-thread .msg + .msg {
+    margin-top: 12pt;
+  }
+  .ask-sources {
+    margin-top: 6pt;
+    font-size: 9pt;
+    line-height: 1.35;
+  }
+  .ask-sources-head {
+    font-weight: 600;
+  }
+}
+
+/* Attached documents: the composer's chips (with the drop area on the composer itself)
+   and the list under a user turn in the thread. */
+.consult-composer.drop-on,
+.dock-composer.drop-on {
+  outline: 1px dashed var(--accent);
+  outline-offset: -4px;
+}
+.ask-attach-bar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-4);
+}
+.ask-attach-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.ask-attach-chip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-1) var(--sp-4);
+  padding: var(--sp-2) var(--sp-4);
+  border: 1px solid var(--border-strong);
+  border-left: 2px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg-sunken);
+  font-size: var(--fs-sm);
+}
+.ask-attach-chip.official {
+  border-left-color: var(--accent);
+}
+.ask-attach-name {
+  color: var(--text);
+  min-width: 0;
+  max-width: 48ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ask-attach-state {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.ask-attach-chip.bad .ask-attach-state {
+  color: var(--bad);
+}
+.ask-attach-official {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.ask-attach-chip .ask-link {
+  font-size: var(--fs-sm);
+  margin-left: auto;
+}
+.ask-attach-hint {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.ask-attached {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-3);
+  padding-left: calc(var(--sp-5) + 2px);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.ask-attached a {
+  display: inline-block;
+  max-width: 48ch;
+  padding: 0 var(--sp-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.ask-attached a:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+.ask-attached a.official {
+  color: var(--text);
+  border-left: 2px solid var(--accent);
+}
+
+/* The dock's selects and date boxes at the dock's smaller size. */
+.dock-composer .ask-options select {
+  height: var(--control-height-sm);
+  font-size: var(--fs-sm);
+}
+
+/* What the clinician started or proposed under an answer (2026-10-08, lab check): one state per item, and while it
+   waits one obvious button to say yes, on its own row under the items. */
+.ask-batch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+.ask-proposal .filing-item > .tag {
+  flex: none;
+  align-self: flex-start;
+}
+.ask-proposal .filing-item .grow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  align-items: flex-start;
+}
+.ask-proposal-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  padding-top: var(--sp-3);
+}
+.ask-proposal-after {
+  color: var(--text);
+}

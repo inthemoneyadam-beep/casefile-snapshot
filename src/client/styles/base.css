@@ -1,0 +1,2060 @@
+/* Reset and base. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-prose);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'tnum' 1, 'kern' 1;
+  /* Symbols are shown exactly as printed: no ligatures, so a printed "<=" never draws as "≤", nor "->" as an arrow
+     (the mono font's code ligatures are contextual alternates; 'none' turns those off too). */
+  font-variant-ligatures: none;
+}
+/*
+ * Type hierarchy (docs/DESIGN.md, Type). Titles (h1 page, h2 detail, h3
+ * dialog) in the serif; every other header in the sans, sentence case, never
+ * small faint capitals: h4 is the section header (Trend, Values, Where this
+ * came from), h5 a header inside a section.
+ */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  margin: 0;
+  letter-spacing: 0.005em;
+  color: var(--text);
+}
+h1 {
+  font-size: var(--fs-page-title);
+}
+h2 {
+  font-size: var(--fs-detail-title);
+}
+h3 {
+  font-size: var(--fs-lg);
+}
+h4 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-section);
+  color: var(--text-heading);
+  letter-spacing: 0;
+}
+h5 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-md);
+  color: var(--text-heading);
+  letter-spacing: 0;
+}
+p {
+  margin: 0 0 var(--sp-5);
+}
+a {
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+code,
+kbd,
+pre,
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.93em;
+}
+pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: var(--sp-6) 0;
+}
+:focus-visible {
+  outline: 1.5px solid var(--focus);
+  outline-offset: 1px;
+}
+::selection {
+  background: var(--accent-soft);
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+input,
+select,
+textarea {
+  background: var(--bg-sunken);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 0 var(--sp-4);
+  height: var(--control-height);
+  min-width: 0;
+}
+textarea {
+  height: auto;
+  padding: var(--sp-3) var(--sp-4);
+  line-height: var(--lh-prose);
+  resize: vertical;
+}
+/* A placeholder reads as a hint, never as a value already typed: faint and in italics. A select still on its empty
+   choice ("Any", "Work it out from the normal range") reads the same way; its list of choices stays plain. */
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-faint);
+  font-style: italic;
+  opacity: 1;
+}
+select:has(> option[value='']:checked) {
+  color: var(--text-faint);
+  font-style: italic;
+}
+select option {
+  color: var(--text);
+  font-style: normal;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+input[type='checkbox'],
+input[type='radio'] {
+  height: auto;
+  width: auto;
+  accent-color: var(--accent);
+  margin: 0 var(--sp-3) 0 0;
+}
+select {
+  padding-right: var(--sp-6);
+}
+/* A day typed as text (ui/DayInput.tsx): a date is data, so the mono; one it cannot read is outlined in amber. */
+input.day-input {
+  font-family: var(--font-mono);
+  width: 19ch;
+  max-width: 100%;
+}
+input.day-input[aria-invalid='true'] {
+  border-color: var(--warn);
+}
+label {
+  color: var(--text-muted);
+  font-size: var(--fs-label);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0 var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  line-height: var(--lh-table);
+}
+/* Column headers: the sans, semibold, in the heading colour on a raised band, sticky. */
+th {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+  font-size: var(--fs-th);
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+  height: var(--th-height);
+  vertical-align: middle;
+  position: sticky;
+  top: 0;
+  background: var(--surface-raised);
+  z-index: 1;
+  border-bottom: 1px solid var(--border-strong);
+}
+td {
+  height: var(--row-height);
+  font-size: var(--fs-md);
+}
+.num,
+td.num,
+th.num {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+/* A number column's header stays in the sans (headers are for reading). */
+th.num {
+  font-family: var(--font-sans);
+}
+.muted {
+  color: var(--text-muted);
+}
+.faint {
+  color: var(--text-faint);
+}
+.small {
+  font-size: var(--fs-sm);
+}
+.xs {
+  font-size: var(--fs-xs);
+}
+.serif {
+  font-family: var(--font-serif);
+}
+.nowrap {
+  white-space: nowrap;
+}
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.prose {
+  max-width: 68ch;
+  line-height: var(--lh-prose);
+}
+.prose p + p {
+  margin-top: var(--sp-5);
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+.row.wrap {
+  flex-wrap: wrap;
+}
+.row.between {
+  justify-content: space-between;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+.stack.tight {
+  gap: var(--sp-2);
+}
+.grow {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ------------------------------------------------------------------ */
+/* App shell                                                          */
+/* ------------------------------------------------------------------ */
+.shell {
+  display: grid;
+  grid-template-columns: var(--nav-width) 1fr;
+  grid-template-rows: 1fr auto;
+  height: 100%;
+  overflow: hidden;
+}
+.nav {
+  grid-row: 1 / span 2;
+  background: var(--bg-sunken);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: var(--sp-5) 0;
+}
+.nav-brand {
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  padding: var(--sp-2) var(--sp-6) var(--sp-5);
+  color: var(--text);
+  letter-spacing: 0.01em;
+  line-height: var(--lh-tight);
+}
+.nav-brand small {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  letter-spacing: 0;
+  margin-top: var(--sp-2);
+}
+/* Sidebar group names: a readable sans header in sentence case, with air above it. */
+.nav-group {
+  padding: var(--sp-5) var(--sp-6) var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0;
+  color: var(--text-heading);
+  border-top: 1px solid var(--border);
+  margin-top: var(--sp-4);
+}
+.nav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-2) var(--sp-6);
+  min-height: 29px;
+  line-height: var(--lh-tight);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  border-left: 2px solid transparent;
+  /* Scrolled into view above the "More below" bar, never under it. */
+  scroll-margin-bottom: 40px;
+}
+.nav a:hover {
+  color: var(--text);
+  text-decoration: none;
+  background: var(--surface-hover);
+}
+.nav a.active {
+  color: var(--text);
+  font-weight: var(--fw-medium);
+  border-left-color: var(--accent);
+  background: var(--surface);
+}
+.nav a .kbd-hint {
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+.nav-spacer {
+  flex: 1;
+}
+.nav-foot {
+  padding: var(--sp-4) var(--sp-5) 0;
+  border-top: 1px solid var(--border);
+  margin-top: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.nav-foot .btn {
+  justify-content: flex-start;
+  width: 100%;
+}
+/* The cue for a sidebar taller than the window: a quiet bar held at the bottom edge while entries are out of view
+   (Shell.tsx useOutOfViewBelow). Text, sans, solid: no fade. */
+.nav-more {
+  position: sticky;
+  bottom: calc(-1 * var(--sp-5));
+  flex: none;
+  margin: var(--sp-3) 0 calc(-1 * var(--sp-5));
+  height: 30px;
+  padding: 0 var(--sp-6);
+  border: 0;
+  border-top: 1px solid var(--border-strong);
+  background: var(--bg-sunken);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  text-align: left;
+  cursor: pointer;
+}
+.nav-more:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.nav-more:focus-visible {
+  outline: 1.5px solid var(--focus);
+  outline-offset: -2px;
+}
+.main {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+/* The line at the bottom: what Claude is doing, and where the app is reachable. Plain words in the sans. */
+.statusbar {
+  grid-column: 2;
+  height: 28px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-sunken);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  padding: 0 var(--page-x);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.statusbar .busy {
+  color: var(--warn);
+}
+
+/* Page scaffolding */
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+/*
+ * Page header (ui/PageHeader.tsx): the title, one line of counts, one plain
+ * sentence of what the page is for, and the page's actions on the right
+ * (one primary, a few secondary, the rest under More).
+ */
+/* Title and counts on the left, the actions on the right of the title's row only; the intro sentence runs under
+   both at the page's full width (beside the actions it wrapped to three lines at 1280px). */
+.page-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: var(--sp-7);
+  row-gap: var(--sp-2);
+  padding: var(--sp-6) var(--page-x) var(--sp-5);
+  border-bottom: 1px solid var(--border);
+}
+.page-header-text {
+  display: contents;
+}
+.page-header-text > h1,
+.page-header-text > .sub {
+  grid-column: 1;
+  min-width: 0;
+}
+.page-header-text > h1 {
+  grid-row: 1;
+}
+.page-header h1 {
+  font-size: var(--fs-page-title);
+  line-height: 1.15;
+}
+.page-header .sub {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.page-header-intro {
+  grid-column: 1 / -1;
+  margin: var(--sp-1) 0 0;
+  color: var(--text-muted);
+  font-size: var(--fs-page-intro);
+  line-height: 1.5;
+  max-width: 120ch;
+}
+.page-header-actions {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--sp-4);
+  padding-top: var(--sp-1);
+}
+.page-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--sp-6) var(--sp-7);
+}
+.page-body.flush {
+  padding: 0;
+  overflow: hidden;
+}
+/*
+ * Page toolbar (ui/Toolbar.tsx): the filters and view switches, each group
+ * labelled in plain words ("View:", "Sample:", "Dates:"), search fields that
+ * say what they search, and the key hints at the right.
+ */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4) var(--sp-6);
+  padding: var(--sp-4) var(--page-x);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-wrap: wrap;
+  min-height: 46px;
+}
+.toolbar .spacer,
+.toolbar-spacer {
+  flex: 1;
+}
+/* A toolbar with an end group ("Clear filters", "Keys ?"): the filters wrap in their own area and the end group stays
+   at the top right, never alone on a line of its own. */
+.toolbar.has-end {
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+.toolbar-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4) var(--sp-6);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.toolbar.has-end > :last-child {
+  flex: none;
+  min-height: var(--control-height);
+}
+/* The right end of a toolbar (ui/Toolbar.tsx ToolbarKeys): Clear filters, the key hints and "Keys ?" in one group
+   pushed to the right, kept together on one line, so "Keys ?" never wraps onto a line of its own. */
+.toolbar-end {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: var(--sp-4);
+  margin-left: auto;
+}
+/* "Keys ?": always visible, quiet. The key cap looks like a .kbd but is not one, so it shows when key hints are off. */
+.toolbar-keys-button {
+  color: var(--text-muted);
+}
+.toolbar-keys-cap {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-regular);
+  line-height: 1;
+  padding: 3px 5px;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  background: var(--bg-sunken);
+  min-width: 18px;
+  text-align: center;
+}
+.toolbar input[type='search'],
+.toolbar input[type='text'] {
+  width: 240px;
+}
+
+/* A labelled group of filters: "View:" then its control. The label is plain words, never a bare chip row. */
+.filter-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-4);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.filter-label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.filter-group > .filter-label::after {
+  content: ':';
+}
+
+/*
+ * Segmented control (ui/Toolbar.tsx Segmented): one choice out of a few
+ * ("By test / By document / All values"). The chosen one is filled and
+ * underlined in the accent; counts sit after the words in the mono.
+ * Each option draws its own border (neighbours overlap by 1px), so a switch
+ * wider than its toolbar wraps onto a second row instead of hiding options;
+ * one that fits looks as it always did.
+ */
+.seg {
+  display: inline-flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  max-width: 100%;
+  padding: 1px 0 0 1px;
+}
+.seg-option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  height: calc(var(--control-height-sm) + 4px);
+  margin: -1px 0 0 -1px;
+  padding: 0 var(--sp-5);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-sunken);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.seg-option:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+.seg-option:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.seg-option:only-child {
+  border-radius: var(--radius);
+}
+.seg-option:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.seg-option[aria-checked='true'] {
+  background: var(--surface-selected);
+  color: var(--text);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+.seg-option:focus-visible {
+  outline: 1.5px solid var(--focus);
+  outline-offset: -2px;
+}
+.seg-option:disabled {
+  cursor: not-allowed;
+  color: var(--text-faint);
+}
+.seg-count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-regular);
+  color: var(--text-faint);
+}
+.seg-option[aria-checked='true'] .seg-count {
+  color: var(--text-muted);
+}
+
+/* Search field: says what it searches (placeholder and label), and / jumps to it. */
+.search-field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-4);
+  min-width: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-label);
+}
+.search-field input[type='search'],
+.toolbar .search-field input[type='search'] {
+  width: var(--search-width, 260px);
+  max-width: 100%;
+  font-size: var(--fs-md);
+}
+/* Dates: from / to, as YYYY, YYYY-MM or YYYY-MM-DD. */
+.date-range {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.date-range input[type='text'],
+.toolbar .date-range input[type='text'] {
+  width: 92px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+}
+.date-range-sep {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* Key hints (ui/Toolbar.tsx KeyHints): shown only when key hints are on in Settings. */
+.keys {
+  display: inline-flex;
+  gap: var(--sp-5);
+  align-items: center;
+  flex-wrap: wrap;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.keys > span {
+  display: inline-flex;
+  gap: var(--sp-2);
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* Action bar (ui/ActionBar.tsx): primary first, then the secondary actions, then More. */
+.action-bar {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+/*
+ * More menu (ui/Menu.tsx): a plain list of text actions under a "More"
+ * button. Arrow keys (or j / k) move, Enter runs, Esc closes, a letter jumps
+ * to the next action that starts with it.
+ */
+.menu-anchor {
+  position: relative;
+  display: inline-flex;
+}
+.menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 45;
+  min-width: 240px;
+  width: max-content;
+  max-width: min(440px, 90vw);
+  max-height: min(70vh, 520px);
+  overflow: auto;
+  padding: var(--sp-2) 0;
+  background: var(--surface-raised);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-popover);
+}
+.menu.align-left {
+  right: auto;
+  left: 0;
+}
+.menu.up {
+  top: auto;
+  bottom: calc(100% + 4px);
+}
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  width: 100%;
+  min-height: 32px;
+  padding: var(--sp-2) var(--sp-6);
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  text-align: left;
+  cursor: pointer;
+  line-height: var(--lh-tight);
+}
+.menu-item:hover,
+.menu-item:focus {
+  outline: none;
+  background: var(--surface-selected);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.menu-item:disabled {
+  color: var(--text-faint);
+  cursor: not-allowed;
+}
+.menu-item.danger {
+  color: var(--danger);
+}
+.menu-key {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.menu-sep {
+  height: 1px;
+  margin: var(--sp-2) 0;
+  background: var(--border);
+}
+.menu-heading {
+  padding: var(--sp-3) var(--sp-6) var(--sp-1);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+}
+
+/* A group header outside a table (ui/GroupHeader.tsx): the name, then how many. */
+.group-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  padding: var(--sp-4) 0 var(--sp-3);
+  border-bottom: 1px solid var(--border-strong);
+  font-family: var(--font-sans);
+  font-size: var(--fs-group);
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+}
+.group-title.sub {
+  font-size: var(--fs-subgroup);
+  color: var(--text-heading);
+  border-bottom-color: var(--border);
+}
+.group-count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-muted);
+}
+
+/* Split view. The list's width comes from SplitView.tsx (px, within its minimums). */
+.split {
+  display: grid;
+  grid-template-columns: var(--split-left, 44%) 1px minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+}
+.split.resizing,
+.split.resizing * {
+  cursor: col-resize !important;
+  user-select: none;
+}
+.split > .split-left,
+.split > .split-right {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+.split > .split-handle {
+  background: var(--border);
+  cursor: col-resize;
+  position: relative;
+  touch-action: none;
+  z-index: 3;
+}
+/* A wider grab strip than the 1px line, so the divider is easy to catch. */
+.split > .split-handle::after {
+  content: '';
+  position: absolute;
+  inset: 0 -5px;
+}
+.split > .split-handle:hover,
+.split > .split-handle.dragging,
+.split > .split-handle:focus-visible {
+  background: var(--accent);
+  outline: none;
+}
+
+/*
+ * Detail pane (ui/DetailPane.tsx): title, one status line, a short key-facts
+ * grid, then the sections in order of importance. 24px between sections.
+ */
+.detail {
+  padding: var(--sp-6) var(--page-x) var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-section);
+}
+.detail-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.detail-header h2 {
+  font-size: var(--fs-detail-title);
+}
+.detail-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+/* Titles, then the actions on a row of their own under the status line: the same place for every item, so moving
+   through a list with j/k never moves them (beside the title they jumped between short and long titles). */
+.detail-head-top {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--sp-4);
+}
+.detail-head-titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+.detail-eyebrow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.detail-title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-detail-title);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  color: var(--text);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.detail-status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+}
+.detail-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+/* A status line of parts (DetailPane.tsx StatusLine): "·" between parts, never at the start of a wrapped line. The
+   row is shifted left by one separator slot and the line clips it, so a part that starts a line shows no dot. */
+.detail-status.sep-list {
+  display: block;
+  overflow: hidden;
+}
+.sep-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  row-gap: var(--sp-2);
+  margin-left: -1.3em;
+}
+.sep-item {
+  position: relative;
+  padding-left: 1.3em;
+  min-width: 0;
+}
+.sep-item::before {
+  content: '·';
+  position: absolute;
+  left: 0.5em;
+  color: var(--text-muted);
+}
+/* Label: value pairs. Labels in the sans, muted; values in the body colour (data values mono). */
+.detail-meta {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: var(--sp-6);
+  row-gap: var(--sp-3);
+  font-size: var(--fs-md);
+  margin: 0;
+}
+.detail-meta dt {
+  color: var(--text-muted);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+  padding-top: 1px;
+}
+.detail-meta dd {
+  margin: 0;
+  min-width: 0;
+  word-break: break-word;
+}
+/* Key facts: label: value pairs, two to a row when the pane is wide (never three: DetailPane.tsx factSpans gives a
+   fact left alone on its row the whole row, which needs a known count per row). */
+.key-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, max(250px, calc((100% - var(--sp-7)) / 2 - 1px))), 1fr));
+  gap: var(--sp-3) var(--sp-7);
+  margin: 0;
+  font-size: var(--fs-md);
+}
+.key-fact {
+  display: grid;
+  /* --key-fact-label: one width for every label of the block (DetailPane.tsx factLabelWidth), so the values line up. */
+  grid-template-columns: minmax(7.5em, var(--key-fact-label, max-content)) minmax(0, 1fr);
+  column-gap: var(--sp-5);
+  align-items: baseline;
+  min-width: 0;
+}
+.key-fact.wide {
+  grid-column: 1 / -1;
+}
+.key-fact dt {
+  color: var(--text-muted);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+}
+.key-fact dd {
+  margin: 0;
+  min-width: 0;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.key-fact dd.mono {
+  font-family: var(--font-mono);
+  font-size: calc(var(--fs-md) - 0.5px);
+}
+
+/* Section: a readable header (sans, sentence case) over a hairline, its count beside it. */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+.section-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: var(--sp-3);
+}
+.section-title h4 {
+  margin: 0;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+.section-title h4 .mono,
+.section-count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-muted);
+}
+.section-intro {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+
+/* Data table */
+.table-wrap {
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+.table-wrap table {
+  min-width: 100%;
+}
+.data-table th {
+  cursor: default;
+  user-select: none;
+}
+.data-table th.sortable {
+  cursor: pointer;
+}
+.data-table th.sortable:hover {
+  color: var(--text);
+}
+.data-table th .sort-ind {
+  margin-left: var(--sp-2);
+  color: var(--accent-strong);
+  font-size: var(--fs-sm);
+}
+.data-table tbody tr {
+  cursor: default;
+}
+.data-table tbody tr:hover {
+  background: var(--surface-hover);
+}
+.data-table tbody tr.selected {
+  background: var(--surface-selected);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.data-table tbody tr.dim {
+  color: var(--text-faint);
+}
+/* On the selected row's tint, faint text would drop under 4.5:1: it lifts to muted. */
+.data-table tbody tr.selected .faint,
+.data-table tbody tr.selected.dim {
+  color: var(--text-muted);
+}
+/* List cells: middle-aligned, with 4px above and below so a name wrapped to two lines has air; a one-line row stays --row-height. */
+.data-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 420px;
+  padding-top: var(--sp-2);
+  padding-bottom: var(--sp-2);
+  vertical-align: middle;
+}
+.data-table td.wrap {
+  white-space: normal;
+}
+/* Windowed tables (DataTable above 400 rows, ui/VirtualRows.tsx) need one
+   height for every row, so a wrap cell's two-line clamp shows one line. */
+.data-table.virtual td.wrap > *,
+.data-table.virtual td.wrap .clamp2 {
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+}
+.table-empty {
+  padding: var(--sp-7) var(--page-x);
+  color: var(--text-muted);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  max-width: 72ch;
+}
+/* Under a list: how many rows, what the page adds, and Reset columns once a width was changed. */
+.table-foot {
+  padding: var(--sp-3) var(--page-x);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  font-family: var(--font-sans);
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-6);
+}
+/* "Reset columns": a plain text action at the right of the table footer. */
+.table-foot-action {
+  margin-left: auto;
+  padding: 0 var(--sp-2);
+  border: 0;
+  background: none;
+  color: var(--accent-strong);
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.table-foot-action:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+/* A table wider than its pane: which columns are out of view, and a button to scroll to them (ColumnSizing.tsx). */
+.table-cue {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  margin-left: auto;
+  color: var(--text);
+}
+.table-cue-words::before {
+  content: '→ ';
+  color: var(--accent-strong);
+}
+.table-cue .table-foot-action {
+  margin-left: 0;
+}
+.table-cue + .table-foot-action {
+  margin-left: 0;
+}
+
+/* Empty state: what the page is for and the one next step. Loading: one muted line. */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  padding: var(--sp-7) var(--page-x);
+  max-width: 72ch;
+}
+.empty-state-title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-section);
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+}
+.empty-state-body {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+}
+.loading-line {
+  margin: 0;
+  padding: var(--sp-6) var(--page-x);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+}
+
+/*
+ * Sized tables (DataTable, GroupedList; ui/ColumnSizing.tsx). Widths come
+ * from one <col> per column, so the layout is fixed: a cell never pushes its
+ * column wider, text is cut with "…" (full text on hover), and the table
+ * scrolls sideways when the columns need more room than the pane.
+ */
+.data-table.sized {
+  table-layout: fixed;
+}
+.data-table.sized td,
+.data-table.sized td.fill {
+  max-width: none;
+  width: auto;
+}
+.data-table.sized th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.data-table .dt-filler {
+  padding: 0;
+}
+/* The name column (and any column with meta.wrap): two lines, then "…". */
+.dt-clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+/* The grab strip on a header's right edge: drag to resize, double-click to fit. */
+.col-resize {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 9px;
+  cursor: col-resize;
+  touch-action: none;
+  z-index: 2;
+}
+/* A faint line between column headers says the edge can be moved; it darkens over the header and turns accent under the pointer. */
+.col-resize::after {
+  content: '';
+  position: absolute;
+  top: 7px;
+  bottom: 7px;
+  right: 0;
+  width: 1px;
+  background: var(--border-strong);
+}
+.data-table thead:hover .col-resize::after {
+  background: var(--text-faint);
+}
+.data-table .col-resize:hover::after,
+.data-table .col-resize.active::after {
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+}
+.data-table.resizing,
+.data-table.resizing * {
+  cursor: col-resize !important;
+  user-select: none;
+}
+/* One measuring pass (ColumnSizing.measureColumns): the table laid out by its content, unwrapped. Never painted. */
+.data-table.measuring {
+  table-layout: auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+}
+.data-table.measuring col {
+  width: auto !important;
+}
+.data-table.measuring th,
+.data-table.measuring td {
+  white-space: nowrap !important;
+  width: auto !important;
+}
+.data-table.measuring.full th,
+.data-table.measuring.full td {
+  max-width: none !important;
+}
+.data-table.measuring .dt-clamp,
+.data-table.measuring .clamp2 {
+  display: inline !important;
+  white-space: nowrap !important;
+}
+.data-table.measuring .dt-filler,
+.data-table.measuring .group-header,
+.data-table.measuring .group-subheader {
+  display: none !important;
+}
+.data-table.measuring th.sortable::after {
+  content: '';
+  display: inline-block;
+  width: 14px;
+}
+
+/* Ledger: a definition-style list of records */
+.ledger {
+  display: flex;
+  flex-direction: column;
+}
+.ledger-row {
+  display: grid;
+  grid-template-columns: 112px 1fr auto;
+  gap: var(--sp-6);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--fs-md);
+  align-items: baseline;
+}
+.ledger-row:hover {
+  background: var(--surface-hover);
+}
+.ledger-row.selected {
+  background: var(--surface-selected);
+}
+.ledger-date {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Buttons */
+/*
+ * Buttons are text. One primary per page or pane (filled accent; 'accent' is
+ * the outlined form for a primary inside a pane), a few default buttons for
+ * the secondary actions, 'ghost' for quiet ones, the rest under More.
+ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  height: var(--control-height);
+  padding: 0 var(--sp-5);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-raised);
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  line-height: 1;
+}
+.btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--text-faint);
+}
+.btn:active {
+  transform: translateY(0.5px);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--text-inverse);
+}
+.btn.primary:hover {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+.btn.danger {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+.btn.danger:hover {
+  background: var(--danger-soft);
+  border-color: var(--danger);
+}
+.btn.accent {
+  background: transparent;
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+.btn.accent:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent-strong);
+}
+.btn[aria-expanded='true'] {
+  background: var(--surface-selected);
+  border-color: var(--accent);
+}
+/* A toggle that is on ("Showing values outside the range"): drawn like a chosen segment, so it reads as on. */
+.btn[aria-pressed='true'] {
+  background: var(--surface-selected);
+  border-color: var(--accent);
+  box-shadow: inset 0 -2px 0 var(--accent);
+  color: var(--text);
+}
+.btn .btn-caret {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  margin-left: var(--sp-1);
+}
+.btn.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-muted);
+}
+.btn.ghost:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.btn.sm {
+  height: var(--control-height-sm);
+  padding: 0 var(--sp-4);
+  font-size: var(--fs-sm);
+}
+.btn .kbd {
+  margin-left: var(--sp-2);
+}
+
+/* Keyboard key */
+.kbd {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-regular);
+  line-height: 1;
+  padding: 3px 5px;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  background: var(--bg-sunken);
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Status tags */
+/*
+ * Status tags: a word in its tone on a faint tint of it. Each tone sets
+ * --tone / --tone-soft. Inside a table the tint is laid over --bg (an inset
+ * shadow over a --bg background), so a tag reads the same on a hovered or
+ * selected row as on a plain one (4.5:1 in every theme).
+ */
+.tag {
+  --tone: var(--text-muted);
+  --tone-soft: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 20px;
+  padding: 0 var(--sp-3);
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  line-height: 1;
+  color: var(--tone);
+  background: var(--tone-soft);
+}
+.tag.neutral {
+  --tone: var(--text-muted);
+  border-color: var(--border-strong);
+}
+.tag.ok {
+  --tone: var(--ok);
+  --tone-soft: var(--ok-soft);
+}
+.tag.warn {
+  --tone: var(--warn);
+  --tone-soft: var(--warn-soft);
+}
+.tag.bad {
+  --tone: var(--bad);
+  --tone-soft: var(--bad-soft);
+}
+.tag.danger {
+  --tone: var(--danger);
+  --tone-soft: var(--danger-soft);
+  border-color: var(--danger);
+}
+.tag.ash {
+  --tone: var(--ash);
+  --tone-soft: var(--ash-soft);
+}
+.tag.info {
+  --tone: var(--info);
+  --tone-soft: var(--info-soft);
+}
+.tag.accent {
+  --tone: var(--accent-strong);
+  --tone-soft: var(--accent-soft);
+}
+.data-table .tag:not(.neutral) {
+  background-color: var(--bg);
+  box-shadow: inset 0 0 0 40px var(--tone-soft);
+}
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Hard-stop banner (medications, emergency card) */
+.hardstop {
+  border: 1px solid var(--danger);
+  background: var(--danger-soft);
+  color: var(--text);
+  padding: var(--sp-4) var(--sp-6);
+  border-radius: var(--radius);
+}
+.hardstop strong {
+  color: var(--danger);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  display: block;
+  margin-bottom: var(--sp-2);
+}
+
+/* Notices */
+.notice {
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--info);
+  background: var(--surface);
+  padding: var(--sp-4) var(--sp-6);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  color: var(--text-muted);
+  border-radius: var(--radius);
+}
+.notice strong {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+.notice.warn {
+  border-left-color: var(--warn);
+}
+.notice.bad {
+  border-left-color: var(--bad);
+}
+.notice.ok {
+  border-left-color: var(--ok);
+}
+
+/* Forms */
+.form {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: var(--sp-4) var(--sp-6);
+  align-items: center;
+  max-width: 720px;
+}
+.form label {
+  text-align: right;
+}
+.form .full {
+  grid-column: 1 / -1;
+}
+.form-actions {
+  grid-column: 2;
+  display: flex;
+  gap: var(--sp-4);
+  padding-top: var(--sp-4);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.field .hint {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.field .error {
+  color: var(--bad);
+  font-size: var(--fs-sm);
+}
+
+/* Dialog */
+dialog.dialog {
+  background: var(--surface-raised);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 0;
+  min-width: 420px;
+  max-width: min(720px, 92vw);
+  max-height: 86vh;
+  box-shadow: var(--shadow-popover);
+}
+dialog.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+.dialog-head {
+  padding: var(--sp-5) var(--sp-6);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.dialog-body {
+  padding: var(--sp-6);
+  overflow: auto;
+  max-height: calc(86vh - 110px);
+}
+.dialog-foot {
+  padding: var(--sp-4) var(--sp-6);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-4);
+}
+
+/* Command palette */
+.palette-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 12vh;
+  z-index: 50;
+}
+.palette {
+  width: min(640px, 92vw);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-popover);
+  overflow: hidden;
+}
+.palette [cmdk-input] {
+  width: 100%;
+  height: 44px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  padding: 0 var(--sp-6);
+  font-size: var(--fs-lg);
+  border-radius: 0;
+}
+.palette [cmdk-input]:focus {
+  box-shadow: none;
+}
+.palette [cmdk-list] {
+  max-height: 52vh;
+  overflow: auto;
+  padding: var(--sp-3) 0;
+}
+.palette [cmdk-group-heading] {
+  padding: var(--sp-5) var(--sp-6) var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+}
+.palette [cmdk-item] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  padding: 0 var(--sp-6);
+  height: 32px;
+  font-size: var(--fs-md);
+  cursor: pointer;
+  color: var(--text);
+}
+.palette [cmdk-item][data-selected='true'] {
+  background: var(--surface-selected);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.palette [cmdk-item] .meta {
+  color: var(--text-faint);
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  /* A date beside a long title stays whole ("2024-03-18", never "2024-" / "03-18"); the title gives way. */
+  white-space: nowrap;
+  flex: none;
+}
+.palette [cmdk-item] > .truncate {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+/* What kind of result a search hit is ("Detail from a document"): a quiet word before the title, never a code. */
+.palette-kind {
+  margin-right: var(--sp-4);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.palette [cmdk-empty] {
+  padding: var(--sp-6);
+  color: var(--text-muted);
+}
+.palette-foot {
+  border-top: 1px solid var(--border);
+  padding: var(--sp-3) var(--sp-6);
+  display: flex;
+  gap: var(--sp-6);
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+
+/* Shortcut sheet */
+.shortcuts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--sp-7);
+}
+.shortcuts dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sp-2) var(--sp-5);
+  align-items: center;
+}
+.shortcuts dt {
+  justify-self: start;
+  display: flex;
+  gap: 3px;
+}
+.shortcuts dd {
+  margin: 0;
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+}
+
+/* Toasts */
+.toasts {
+  position: fixed;
+  right: var(--sp-6);
+  bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  z-index: 60;
+}
+.toast {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  border-left: 2px solid var(--info);
+  padding: var(--sp-4) var(--sp-6);
+  font-size: var(--fs-md);
+  box-shadow: var(--shadow-popover);
+  max-width: 420px;
+}
+.toast.ok {
+  border-left-color: var(--ok);
+}
+.toast.bad {
+  border-left-color: var(--bad);
+}
+
+/* Lock screen */
+.lock {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+}
+.lock-card {
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+.lock-card h1 {
+  font-size: var(--fs-3xl);
+  font-weight: 400;
+}
+.lock-card .error {
+  color: var(--bad);
+  font-size: var(--fs-sm);
+}
+
+/* Drop zone */
+.dropzone {
+  border: 1px dashed var(--border-strong);
+  padding: var(--sp-6);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  text-align: center;
+  border-radius: var(--radius);
+}
+.dropzone.over {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+/* Citation chips. Often a <button>: no background of its own, so the browser's grey button fill never shows. */
+.cite {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--accent-strong);
+  background: none;
+  border: 1px solid var(--border-strong);
+  padding: 1px 5px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cite:hover {
+  background: var(--accent-soft);
+  text-decoration: none;
+}
+.cite.unverified {
+  color: var(--warn);
+  border-style: dashed;
+}
+mark,
+.hl {
+  background: var(--highlight);
+  color: inherit;
+  padding: 0 1px;
+}
+.hl.strong {
+  background: var(--highlight-strong);
+}
+
+/* Document page text */
+.pagetext {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding: var(--sp-6) var(--sp-7);
+  border-bottom: 1px solid var(--border);
+}
+.pagetext .pagenum {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+  margin-bottom: var(--sp-3);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Timeline */
+.timeline-day {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: var(--sp-6);
+  border-bottom: 1px solid var(--border);
+  padding: var(--sp-4) 0;
+}
+.timeline-day > .when {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  padding-top: 2px;
+}
+.timeline-item {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: var(--sp-5);
+  padding: var(--sp-1) 0;
+  font-size: var(--fs-md);
+  align-items: baseline;
+}
+.timeline-item.selected {
+  background: var(--surface-selected);
+}
+.timeline-item .kind {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* Verdict keys */
+.verdict-keys {
+  display: flex;
+  gap: var(--sp-4);
+  align-items: center;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* Charts */
+.chart {
+  width: 100%;
+  min-height: 200px;
+}
+.chart svg text {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  fill: var(--text-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Consult dock (right column) and global drop overlay                 */
+/* ------------------------------------------------------------------ */
+.shell[data-dock='open'] {
+  grid-template-columns: var(--nav-width) minmax(0, 1fr) var(--dock-width, 460px);
+}
+.dock {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  border-left: 1px solid var(--border);
+  background: var(--bg-sunken);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.dock-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.dock-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-6);
+  border-bottom: 1px solid var(--border);
+  font-size: var(--fs-lg);
+}
+.dock-thread {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--sp-5) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+.dock-composer {
+  border-top: 1px solid var(--border);
+  padding: var(--sp-4) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  background: var(--surface);
+}
+.msg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.msg-role {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+}
+.msg-user {
+  border-left: 2px solid var(--border-strong);
+  padding-left: var(--sp-5);
+  color: var(--text);
+}
+.msg-answer {
+  line-height: var(--lh-prose);
+  max-width: 72ch;
+}
+.msg-answer h1,
+.msg-answer h2,
+.msg-answer h3 {
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  margin: var(--sp-5) 0 var(--sp-2);
+}
+.msg-answer ul,
+.msg-answer ol {
+  margin: var(--sp-2) 0 var(--sp-4);
+  padding-left: 1.4em;
+}
+.msg-answer li + li {
+  margin-top: var(--sp-1);
+}
+.msg-answer table {
+  margin: var(--sp-4) 0;
+  width: auto;
+}
+.msg-answer td,
+.msg-answer th {
+  height: auto;
+  padding: 2px var(--sp-4);
+}
+.msg-thinking {
+  font-size: var(--fs-sm);
+  color: var(--text-faint);
+  border-left: 1px dashed var(--border-strong);
+  padding-left: var(--sp-5);
+  white-space: pre-wrap;
+  max-height: 260px;
+  overflow: auto;
+}
+.msg-thinking summary {
+  cursor: pointer;
+  color: var(--text-muted);
+  list-style: none;
+}
+.msg-foot {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  display: flex;
+  gap: var(--sp-5);
+  flex-wrap: wrap;
+}
+.msg-status {
+  font-size: var(--fs-md);
+  color: var(--warn);
+  font-family: var(--font-sans);
+}
+.drop-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: grid;
+  place-items: center;
+  z-index: 70;
+  pointer-events: none;
+}
+.drop-overlay .drop-card {
+  border: 1px dashed var(--accent);
+  background: var(--surface-raised);
+  padding: var(--sp-7) var(--sp-8);
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  color: var(--text);
+}
+
+/* Keyboard hints on buttons and toolbars are hidden unless the person turns
+   them on in Settings, Appearance; the shortcuts themselves always work. The
+   shortcut list (?) and the command palette always show their keys. */
+:root:not([data-keyhints]) .btn .kbd,
+:root:not([data-keyhints]) .keys,
+:root:not([data-keyhints]) .kbd-hint {
+  display: none;
+}
+
+/* A column that takes whatever width is left and truncates, so narrow columns after it stay visible
+   (plain tables; DataTable and GroupedList size it from their column plan, see .data-table.sized). */
+.data-table:not(.sized) td.fill {
+  max-width: 0;
+  width: 100%;
+}
+
+@media print {
+  .data-table.sized {
+    table-layout: auto;
+    width: 100% !important;
+  }
+  .data-table.sized col {
+    width: auto !important;
+  }
+  .col-resize,
+  .dt-filler,
+  .table-foot-action {
+    display: none !important;
+  }
+  .dt-clamp {
+    display: block;
+    -webkit-line-clamp: none;
+    line-clamp: none;
+  }
+}

@@ -1,0 +1,101 @@
+/* How CaseFile works: a readable column of terms, with room above each section. Tokens only. */
+.page-body.guide-scroll {
+  padding-top: var(--sp-7);
+}
+.guide-body {
+  max-width: 92ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  padding-bottom: var(--sp-9);
+}
+/* Section titles a step larger than in a pane, so the long page reads as chapters. */
+.guide-body .section-title h4 {
+  font-size: calc(var(--fs-section) + 2px);
+}
+.guide-body .section {
+  scroll-margin-top: var(--sp-6);
+}
+.guide-body .section-title h4:focus {
+  outline: none;
+}
+.guide-body .section-title h4:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* On this page: the sections as links, in two columns where there is room. */
+.guide-toc {
+  padding: var(--sp-5) var(--sp-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.guide-toc-title {
+  margin: 0 0 var(--sp-4);
+  font-size: var(--fs-section);
+}
+.guide-toc ol {
+  margin: 0;
+  padding-left: 1.6em;
+  columns: 2 240px;
+  column-gap: var(--sp-8);
+}
+.guide-toc li {
+  padding: var(--sp-1) 0;
+  break-inside: avoid;
+  line-height: 1.4;
+}
+.guide-toc a {
+  color: var(--accent-strong);
+}
+
+.guide-p {
+  margin: 0 0 var(--sp-4);
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.guide-steps {
+  margin: 0;
+  padding-left: 1.4em;
+  line-height: 1.6;
+}
+.guide-terms {
+  margin: 0;
+}
+.guide-term {
+  display: grid;
+  grid-template-columns: minmax(150px, 220px) 1fr;
+  gap: var(--sp-5);
+  padding: var(--sp-4) 0;
+  border-top: 1px solid var(--border);
+}
+.guide-term:first-child {
+  border-top: 0;
+  padding-top: var(--sp-2);
+}
+.guide-term dt {
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+}
+.guide-term dd {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.guide-group + .guide-group {
+  margin-top: var(--sp-7);
+}
+.guide-group-title {
+  margin: 0 0 var(--sp-3);
+  font-family: var(--font-sans);
+  font-size: var(--fs-subgroup);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+}
+@media (max-width: 640px) {
+  .guide-term {
+    grid-template-columns: 1fr;
+    gap: var(--sp-1);
+  }
+}

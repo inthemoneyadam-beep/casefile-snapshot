@@ -1,0 +1,120 @@
+/* Automatic filing: yellow means "this needs you" (a document not sorted yet, a move the clinician suggested). Colours come from tokens.css only. */
+
+.waiting-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--warn);
+  margin-right: var(--sp-3);
+  flex: none;
+}
+
+/* On a document: where Claude filed it. */
+.filing-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-5) var(--sp-6);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.filing-panel.waiting {
+  border-color: var(--warn);
+  border-left-width: 3px;
+  background: var(--warn-soft);
+}
+.filing-head,
+.filing-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+  font-size: var(--fs-base);
+}
+.filing-head > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+}
+.filing-head .grow {
+  flex: 1;
+}
+.filing-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-5);
+  padding: var(--sp-3) 0;
+  border-top: 1px solid var(--border);
+}
+.filing-item .grow {
+  flex: 1;
+  min-width: 0;
+}
+.filing-item .small {
+  color: var(--text-muted);
+  line-height: var(--lh-table);
+}
+.filing-item.pending .filing-what::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--warn);
+  margin-right: var(--sp-3);
+  vertical-align: middle;
+}
+.filing-what {
+  font-size: var(--fs-md);
+  color: var(--text);
+}
+.filing-item.proposal {
+  border-top-color: var(--warn);
+}
+.filing-foot {
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-3);
+}
+
+.filing-notice {
+  margin-bottom: var(--sp-5);
+}
+.filing-notice .filing-head + .filing-head {
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-3);
+}
+
+/* The menu: a yellow count beside sections with something waiting. */
+.nav a .nav-count {
+  min-width: 20px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 9px;
+  background: var(--warn-soft);
+  border: 1px solid var(--warn);
+  color: var(--text);
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+/* A pending count is the badge alone; the label is not brightened, so only the page you are on reads as current
+   (2026-10 UI overhaul, audit S-12). */
+.nav-add {
+  margin: 0 var(--sp-6) var(--sp-5);
+}
+.nav-add .btn {
+  width: 100%;
+  justify-content: center;
+  height: 34px;
+  font-size: var(--fs-base);
+}
+
+/* A check box keeps its question readable: the answers wrap onto their own line when space is short. */
+.filing-notice .filing-head .grow {
+  flex: 1 1 280px;
+  min-width: 220px;
+}

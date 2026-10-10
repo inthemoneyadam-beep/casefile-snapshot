@@ -1,0 +1,131 @@
+/* Records checklist (routes/records.tsx, features/records/*). Tokens only; everything else comes from base.css. */
+
+/* The one line under the toolbar: what the list holds (the same pattern as Reconciliation). */
+.records-tab-intro {
+  margin: 0;
+  padding: var(--sp-4) var(--page-x);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  box-shadow: inset 3px 0 0 var(--border-strong);
+}
+.records-tab-intro strong {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+.records-tab-intro.warn {
+  box-shadow: inset 3px 0 0 var(--warn);
+}
+
+/* Where a row stands: the status tag and its date, on one line. */
+.records-status {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  white-space: nowrap;
+}
+/* Where a missing record is mentioned: the document's date first, then a tag when the quote was not found. */
+.records-mention {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  min-width: 0;
+}
+.records-mention a.unverified {
+  color: var(--warn);
+}
+
+.records-eyebrow-kind {
+  color: var(--text);
+  font-weight: var(--fw-medium);
+}
+.records-unsaved {
+  color: var(--warn);
+}
+/* A short muted line in a pane or a dialog: what an action does, when it was changed. */
+.records-hint {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+.records-dialog-text {
+  margin: 0;
+  line-height: 1.5;
+}
+.records-dialog-check {
+  align-items: flex-start;
+  line-height: 1.5;
+}
+
+/* "Maybe already here": the guess, said as one, with its one action. */
+.records-likely {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+}
+
+/* The passage that mentions a missing record. */
+.records-quote {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border-left: 2px solid var(--warn);
+  background: var(--highlight);
+  color: var(--text);
+  padding: var(--sp-4) var(--sp-5);
+  margin: 0;
+}
+.records-quote.verified {
+  border-left-color: var(--accent);
+}
+
+.records-form .form-actions {
+  align-items: center;
+}
+.records-form .form-actions .error {
+  color: var(--bad);
+}
+/* The "You have a copy" checkbox label reads as a value, not as a form label. */
+.records-form .records-check {
+  color: inherit;
+}
+.records-dates {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+.records-form .records-dates label {
+  text-align: left;
+  display: block;
+  margin-bottom: var(--sp-2);
+}
+.records-form .records-dates input {
+  width: 100%;
+}
+
+.records-dialog-actions {
+  justify-content: flex-end;
+}
+
+/* The form fits the pane: the label column, then the fields, which never push past the pane's edge. */
+.form.records-form {
+  grid-template-columns: minmax(96px, 128px) minmax(0, 1fr);
+  max-width: 640px;
+}
+.records-form .field {
+  min-width: 0;
+}
+.records-form .field > input:not([type='checkbox']),
+.records-form .field > select,
+.records-form .field > textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}

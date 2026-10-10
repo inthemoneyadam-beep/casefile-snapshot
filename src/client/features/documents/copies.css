@@ -1,0 +1,22 @@
+/*
+ * Likely copies (DocumentDetail's one quiet line, the documents list's small tag). Information, not a task: muted
+ * text, no colour of its own, never yellow.
+ */
+.doc-copy-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  align-items: baseline;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.doc-copy-line a {
+  color: var(--text);
+}
+.doc-copy-actions {
+  display: inline-flex;
+  gap: var(--sp-2);
+}
+.doc-copy-tag {
+  margin-left: var(--sp-2);
+}

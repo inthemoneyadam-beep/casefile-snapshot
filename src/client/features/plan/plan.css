@@ -1,0 +1,175 @@
+/*
+ * The Plan page (routes/plan.tsx): the outline's indents, the line under the toolbar (the reading, a replaced plan,
+ * items to mark from the earlier plan), the drop area, the item pane and the original's page text. Colours and sizes
+ * from tokens.css only; 8px rhythm; sentence case. Everything else is the shared system (base.css).
+ */
+
+/* The line under the toolbar: one sentence and at most two buttons, a coloured edge for where it stands. */
+.plan-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3) var(--sp-5);
+  margin: 0;
+  padding: var(--sp-4) var(--page-x);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  box-shadow: inset 3px 0 0 var(--border-strong);
+}
+.plan-line strong {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+.plan-line.warn {
+  box-shadow: inset 3px 0 0 var(--warn);
+}
+.plan-line.bad {
+  box-shadow: inset 3px 0 0 var(--bad);
+}
+.plan-line.ok {
+  box-shadow: inset 3px 0 0 var(--ok);
+}
+.plan-line .row {
+  gap: var(--sp-3);
+}
+
+/* The outline: each level one step in, the kind as a quiet word before the item. */
+.plan-outline {
+  display: inline-block;
+}
+.plan-outline.d1 {
+  padding-left: var(--sp-6);
+}
+.plan-outline.d2 {
+  padding-left: calc(var(--sp-6) * 2);
+}
+.plan-outline.d3 {
+  padding-left: calc(var(--sp-6) * 3);
+}
+.plan-outline.d4 {
+  padding-left: calc(var(--sp-6) * 4);
+}
+.plan-outline.d5 {
+  padding-left: calc(var(--sp-6) * 5);
+}
+.plan-kind {
+  color: var(--text-faint);
+  font-size: var(--fs-sm);
+  margin-right: var(--sp-3);
+}
+.plan-outline.section {
+  color: var(--text-heading);
+  font-weight: var(--fw-semibold);
+}
+.plan-edited {
+  color: var(--text-faint);
+  font-size: var(--fs-sm);
+  margin-left: var(--sp-3);
+}
+
+/* Dropping a file onto the page. */
+.plan-page.dropping .page-body {
+  outline: 2px dashed var(--accent);
+  outline-offset: -6px;
+}
+.plan-drop {
+  margin: var(--sp-6) var(--page-x);
+  padding: var(--sp-7) var(--sp-6);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+  text-align: left;
+  max-width: 72ch;
+}
+
+/* The item pane. */
+.plan-as-written {
+  margin: 0 0 var(--sp-5);
+  padding: var(--sp-3) var(--sp-5);
+  border-left: 2px solid var(--border-strong);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+}
+.plan-as-written p {
+  margin: 0;
+  line-height: 1.5;
+}
+.plan-detail-text {
+  margin: 0 0 var(--sp-3);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 72ch;
+  line-height: var(--lh-prose);
+}
+.plan-carried {
+  margin: 0 0 var(--sp-5);
+}
+.plan-children,
+.plan-cites {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.plan-children li,
+.plan-cites li {
+  padding: var(--sp-2) 0;
+  line-height: 1.5;
+}
+.plan-quote {
+  color: var(--text);
+}
+.plan-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.plan-link:hover,
+.plan-link:focus-visible {
+  text-decoration: underline;
+}
+
+/* Forms in the dialogs. */
+.plan-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-4) var(--sp-5);
+}
+.plan-form .full {
+  grid-column: 1 / -1;
+}
+.plan-form textarea,
+.plan-form input,
+.plan-form select {
+  width: 100%;
+}
+
+/* The original's page text. */
+.plan-pagetext {
+  max-width: 90ch;
+}
+.plan-unfound {
+  margin: 0 0 var(--sp-4);
+}
+
+/* The All plans tab's pane. */
+.plan-summary {
+  margin: 0 0 var(--sp-5);
+  max-width: 72ch;
+  line-height: var(--lh-prose);
+}
+.plan-history {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.plan-history li {
+  padding: var(--sp-1) 0;
+}

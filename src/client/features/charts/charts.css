@@ -1,0 +1,168 @@
+/* Shared chart (LineChart.tsx): medication lanes under the x axis, the faint
+   start and stop guides on the plot, and the legend. Imported by LineChart.tsx.
+   Selectors carry `.chart svg` so they out-rank base.css's `.chart svg text`. */
+
+.chart svg .chart-lane-name {
+  fill: var(--text-muted);
+}
+.chart svg .chart-lane-word,
+.chart svg .chart-lane-more {
+  fill: var(--text-faint);
+}
+/* The reading minimum (--fs-xs), never smaller; LineChart's START_WORD_W (7px a letter) still leaves room for it. */
+.chart svg .chart-lane-word {
+  font-size: var(--fs-xs);
+}
+.chart svg .chart-lane-track {
+  stroke: var(--chart-grid);
+}
+.chart svg .chart-lane-hit {
+  fill: transparent;
+}
+.chart svg .chart-lane-row:hover .chart-lane-track {
+  stroke: var(--border-strong);
+}
+.chart svg .chart-lane-row:hover .chart-lane-name {
+  fill: var(--text);
+}
+.chart svg .chart-lane-dashed {
+  stroke-dasharray: 4 3;
+}
+.chart svg .chart-guide {
+  stroke-opacity: 0.24;
+}
+.chart svg .chart-legend-name {
+  fill: var(--text-muted);
+}
+.chart svg .chart-legend-ref {
+  fill: var(--text-muted);
+}
+/* The normal range: the band's dashed top and bottom edge. */
+.chart svg .chart-band-edge {
+  stroke: var(--ok);
+  stroke-opacity: 0.45;
+  stroke-dasharray: 3 3;
+}
+/* Two documents give different values for one date: dashed lines to each, never a vertical jump. */
+.chart svg .chart-fork {
+  stroke-dasharray: 4 3;
+  stroke-opacity: 0.85;
+}
+
+/* The legend under a narrow chart (LineChart legendBelow): the same items as beside a wide one, in readable text. */
+.chart-legend-below {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-6);
+  margin-top: var(--sp-2);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.chart-legend-at {
+  color: var(--text);
+}
+.chart-swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+}
+.chart-swatch.s1 {
+  background: var(--chart-1);
+}
+.chart-swatch.s2 {
+  background: var(--chart-2);
+}
+.chart-swatch.s3 {
+  background: var(--chart-3);
+}
+.chart-swatch.s4 {
+  background: var(--chart-4);
+}
+.chart-swatch.s5 {
+  background: var(--chart-5);
+}
+.chart-swatch.s6 {
+  background: var(--chart-6);
+}
+/* A series drawn as open circles (Labs: values stated in summaries or notes): an open swatch in its colour. */
+.chart-swatch.hollow {
+  background: transparent;
+  border: 1.5px solid var(--chart-1);
+  border-radius: 50%;
+}
+.chart-swatch.hollow.s2 {
+  border-color: var(--chart-2);
+}
+.chart-swatch.hollow.s3 {
+  border-color: var(--chart-3);
+}
+.chart-swatch.hollow.s4 {
+  border-color: var(--chart-4);
+}
+.chart-swatch.hollow.s5 {
+  border-color: var(--chart-5);
+}
+.chart-swatch.hollow.s6 {
+  border-color: var(--chart-6);
+}
+.chart-swatch.band {
+  background: var(--chart-band);
+  border: 1px dashed var(--ok);
+}
+.chart-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+/* Outside the range: a diamond, as on the plot (shape and colour, never colour alone). */
+.chart-dot.out {
+  background: var(--chart-out);
+  border-radius: 0;
+  width: 7px;
+  height: 7px;
+  transform: rotate(45deg);
+}
+.chart-dot.ring {
+  width: 10px;
+  height: 10px;
+  border: 1.25px solid var(--chart-out);
+}
+/* A value computed by the patient from printed values (Labs, 2026-10-09): an open square, never red. */
+.chart-swatch.square {
+  background: transparent;
+  border: 1.5px solid var(--chart-1);
+}
+.chart-swatch.square.s2 {
+  border-color: var(--chart-2);
+}
+.chart-swatch.square.s3 {
+  border-color: var(--chart-3);
+}
+.chart-swatch.square.s4 {
+  border-color: var(--chart-4);
+}
+.chart-swatch.square.s5 {
+  border-color: var(--chart-5);
+}
+.chart-swatch.square.s6 {
+  border-color: var(--chart-6);
+}
+.chart-dot.square {
+  border-radius: 0;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--text-muted);
+}
+/* The range the patient typed for a computed test: a dashed line, labelled; never a band, never red. */
+.chart-dash {
+  display: inline-block;
+  width: 14px;
+  border-top: 1.5px dashed var(--text-muted);
+}

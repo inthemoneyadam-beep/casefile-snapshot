@@ -1,0 +1,351 @@
+/*
+ * My notes and the two-stage reconciler. Colours come from tokens.css only: rust (--bad) marks a value of his notes
+ * that differs from the records; ochre (--warn) a disagreement waiting for him; moss (--ok) what agrees; the accent
+ * what is settled.
+ */
+
+.nt-entries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+.nt-entry {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-2) var(--sp-5);
+  padding: var(--sp-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+.nt-entry:last-child {
+  border-bottom: 0;
+}
+.nt-entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-3) var(--sp-4);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.nt-entry-statement {
+  grid-column: 1 / -1;
+  color: var(--text);
+  font-size: var(--fs-md);
+  line-height: var(--lh-table);
+}
+.nt-quote {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: var(--sp-2) var(--sp-5);
+  border-left: 2px solid var(--border-strong);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: var(--lh-prose);
+}
+.nt-why {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.nt-why.differs {
+  color: var(--bad);
+}
+.nt-why.waiting {
+  color: var(--warn);
+}
+
+/* The two sides of a difference: his notes, the records. */
+.nt-sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-5);
+}
+@media (max-width: 1100px) {
+  .nt-sides {
+    grid-template-columns: 1fr;
+  }
+}
+.nt-side {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: var(--sp-5);
+  background: var(--surface);
+}
+.nt-side.mine {
+  border-left: 3px solid var(--bad);
+}
+.nt-side.records {
+  border-left: 3px solid var(--accent);
+}
+.nt-side-label {
+  color: var(--text-muted);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+  margin-bottom: var(--sp-3);
+}
+.nt-side-says {
+  color: var(--text);
+  font-size: var(--fs-lg);
+  margin-bottom: var(--sp-3);
+}
+.nt-answers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+.nt-answered {
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+}
+.nt-answered strong {
+  color: var(--text);
+  font-weight: var(--fw-medium);
+}
+.nt-line {
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: var(--lh-prose);
+  margin: 0;
+}
+.nt-line.warn {
+  color: var(--warn);
+}
+.nt-line.bad {
+  color: var(--bad);
+}
+
+/* The drug's lanes: one row per source. */
+.nt-lanes-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+.nt-lanes svg {
+  display: block;
+}
+.nt-lanes .lane-label {
+  fill: var(--text-muted);
+  font-size: 12px;
+  font-family: var(--font-sans);
+}
+.nt-lanes .lane-label.note {
+  fill: var(--text);
+}
+.nt-lanes .lane-row {
+  fill: transparent;
+}
+.nt-lanes .lane-row.note {
+  fill: var(--surface-raised);
+}
+.nt-lanes .lane-grid {
+  stroke: var(--chart-grid);
+  stroke-width: 1;
+}
+.nt-lanes .tick-label {
+  fill: var(--text-faint);
+  font-size: 11px;
+  font-family: var(--font-mono);
+}
+.nt-lanes .pt {
+  stroke-width: 1.5;
+}
+.nt-lanes .pt.start {
+  fill: var(--chart-1);
+  stroke: var(--chart-1);
+}
+.nt-lanes .pt.stop {
+  fill: var(--bg);
+  stroke: var(--text-muted);
+}
+.nt-lanes .pt.dose {
+  fill: var(--chart-4);
+  stroke: var(--chart-4);
+}
+.nt-lanes .pt.open {
+  stroke: var(--warn);
+  stroke-width: 2.5;
+}
+.nt-lanes .pt.differs {
+  stroke: var(--bad);
+  stroke-width: 2.5;
+}
+.nt-lanes .pt.wrong {
+  opacity: 0.45;
+}
+.nt-lanes .settled-line {
+  stroke: var(--accent);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.nt-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-6);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  margin-bottom: var(--sp-4);
+}
+.nt-lanes-words {
+  margin: var(--sp-4) 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-prose);
+}
+.nt-lanes-words strong {
+  color: var(--text);
+  font-weight: var(--fw-medium);
+}
+
+/* A records-vs-records disagreement and its groups. */
+.nt-dis {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: var(--sp-5);
+  margin-bottom: var(--sp-5);
+}
+.nt-dis.open {
+  border-left: 3px solid var(--warn);
+}
+.nt-dis-title {
+  color: var(--text);
+  font-weight: var(--fw-medium);
+  margin-bottom: var(--sp-4);
+}
+.nt-group {
+  display: grid;
+  grid-template-columns: minmax(110px, auto) 1fr;
+  gap: var(--sp-3) var(--sp-5);
+  padding: var(--sp-3) 0;
+  border-top: 1px solid var(--border);
+}
+.nt-group-says {
+  font-family: var(--font-mono);
+  color: var(--text);
+}
+.nt-group-points {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.nt-point {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-4);
+  align-items: baseline;
+  font-size: var(--fs-md);
+}
+.nt-point.wrong .nt-point-title {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* The import dialog. */
+.nt-drop {
+  border: 1px dashed var(--border-strong);
+  border-radius: 4px;
+  padding: var(--sp-7) var(--sp-6);
+  color: var(--text-muted);
+  text-align: left;
+}
+.nt-drop.over {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.nt-drop p {
+  margin: 0 0 var(--sp-4);
+}
+.nt-import-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  align-items: center;
+}
+.nt-folder {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+  margin-top: var(--sp-5);
+}
+.nt-folder input[type='text'] {
+  flex: 1;
+}
+.nt-skipped {
+  max-height: 160px;
+  overflow: auto;
+  margin: var(--sp-3) 0 0;
+  padding-left: var(--sp-6);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.nt-estimate {
+  color: var(--text);
+  font-size: var(--fs-base);
+  line-height: var(--lh-prose);
+}
+
+/* Reconciliation: the two stages. */
+.nt-stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4) var(--sp-6);
+  padding: 0 var(--page-x) var(--sp-4);
+}
+
+/* Lists: a cell of two lines (the words, then what and where), and the one line under the toolbar. */
+.nt-cell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 3px 0;
+  line-height: var(--lh-table);
+}
+.nt-cell > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nt-cell-sub {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.nt-intro {
+  margin: 0;
+  padding: var(--sp-4) var(--page-x);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  box-shadow: inset 3px 0 0 var(--border-strong);
+}
+.nt-intro strong {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+.nt-intro.bad {
+  box-shadow: inset 3px 0 0 var(--bad);
+}
+.nt-intro.warn {
+  box-shadow: inset 3px 0 0 var(--warn);
+}
+.page.drop-over {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.nt-bad {
+  color: var(--bad);
+}
+.nt-gap-top {
+  margin-top: var(--sp-4);
+}
+.nt-gap-bottom {
+  margin-bottom: var(--sp-4);
+}
+.nt-reason input {
+  flex: 1;
+}
+/* A row of your notes that differs from the records: a rust marker on the left. */
+.data-table tbody tr.nt-differs-row,
+.data-table tbody tr.nt-differs-row.selected {
+  box-shadow: inset 3px 0 0 var(--bad);
+}

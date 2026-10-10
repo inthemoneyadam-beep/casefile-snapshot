@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <title>CaseFile</title>
+    <script>
+      // Apply the stored theme before first paint so the lock screen is never bright.
+      try {
+        var t = localStorage.getItem('casefile.theme') || 'dark';
+        var h = document.documentElement;
+        h.setAttribute('data-theme', t);
+        if (localStorage.getItem('casefile.largeType') === '1') h.setAttribute('data-large', '1');
+        if (localStorage.getItem('casefile.reducedContrast') === '1') h.setAttribute('data-reduced', '1');
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,242 @@
+/* Import (calendar and spreadsheet). Colours and sizes come from tokens.css only. */
+
+/* The three steps under the toolbar: where you are, and one sentence saying what to do now. */
+.import-steps {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-7);
+  padding: var(--sp-4) var(--page-x);
+  border-bottom: 1px solid var(--border);
+  font-size: var(--fs-md);
+}
+.import-step-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.import-step {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  color: var(--text-muted);
+}
+.import-step-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+.import-step.current {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+.import-step.current .import-step-n {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--accent-soft);
+}
+.import-step.done .import-step-n {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+.import-step-now {
+  color: var(--text-muted);
+}
+
+.import-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--text);
+  font-size: var(--fs-md);
+  cursor: pointer;
+}
+.import-toggle input {
+  margin: 0;
+}
+
+/* The body: an optional result line above the split, the whole of it a drop target. */
+.import-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.import-body > .split {
+  flex: 1;
+  height: auto;
+}
+.import-drop {
+  position: absolute;
+  inset: var(--sp-4);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.import-notice {
+  margin: var(--sp-4) var(--page-x) 0;
+}
+.import-notice + .split,
+.import-notice + .import-notice {
+  margin-top: var(--sp-4);
+}
+.import-notice + .split {
+  border-top: 1px solid var(--border);
+}
+
+/* Step 1 with no file: the button, then how to get the file and what happens to it. */
+.page-body.import-body:has(> .import-start) {
+  overflow: auto;
+}
+.import-start {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--sp-8);
+}
+.import-start-help {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-section);
+  padding: 0 var(--page-x);
+  max-width: 820px;
+}
+.import-help-list {
+  margin: 0;
+  padding-left: 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  line-height: 1.5;
+}
+.import-guide {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.import-guide-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 200px) minmax(0, 1fr);
+  gap: var(--sp-5);
+  padding: var(--sp-3) 0;
+  border-top: 1px solid var(--border);
+  align-items: baseline;
+}
+.import-guide.compact .import-guide-row {
+  grid-template-columns: minmax(7.5em, 12em) minmax(0, 1fr);
+  padding: var(--sp-2) 0;
+}
+.import-guide.compact .import-guide-row dt {
+  color: var(--text-muted);
+}
+.import-guide-row:first-child {
+  border-top: 0;
+}
+.import-guide-row dt {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.import-guide-row dd {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.import-guide-row dt.mono {
+  font-size: calc(var(--fs-md) - 0.5px);
+}
+
+/* The list. */
+.data-table td.import-check input {
+  margin: 0;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.import-rowcell {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+.import-cannot .tag {
+  vertical-align: 1px;
+}
+.import-names-inline {
+  display: inline;
+}
+
+/* The detail pane. */
+.form.import-form {
+  grid-template-columns: 120px minmax(0, 1fr);
+  max-width: 560px;
+}
+.form.import-form label {
+  color: var(--text-muted);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+}
+.import-form input[type='text'],
+.import-form select {
+  width: 100%;
+}
+.import-desc,
+.import-cell {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text);
+}
+.import-issues,
+.import-created {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.import-issues li,
+.import-created li {
+  display: flex;
+  gap: var(--sp-5);
+  align-items: baseline;
+}
+.import-issue-row {
+  flex: none;
+  min-width: 56px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-muted);
+}
+.import-names {
+  width: 100%;
+}
+.import-names td {
+  vertical-align: middle;
+  white-space: normal;
+}
+.import-names td select {
+  width: 100%;
+  max-width: 320px;
+}
+.import-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+}
+.import-confirm p {
+  margin: 0;
+}

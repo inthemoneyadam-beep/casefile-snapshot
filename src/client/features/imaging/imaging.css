@@ -1,0 +1,180 @@
+/* Scans and imaging (routes/imaging.tsx, features/imaging/*). Colours and sizes come from tokens.css only. */
+
+/* The report a scan came from, as a link in a list or a pane: the document's date first (never cut). */
+.imaging-source {
+  color: var(--accent-strong);
+}
+.imaging-source.unverified {
+  color: var(--warn);
+}
+
+/* A short muted line where a section has nothing to show (one sentence, never a dash). */
+.imaging-none {
+  margin: 0;
+}
+
+/* The report text reads as prose: serif, measured line. */
+.imaging-impression {
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-prose);
+  max-width: 68ch;
+  white-space: pre-wrap;
+  margin: 0;
+}
+.imaging-findings {
+  line-height: var(--lh-prose);
+  max-width: 72ch;
+  white-space: pre-wrap;
+  color: var(--text);
+  margin: 0;
+}
+
+.imaging-quote {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border-left: 2px solid var(--warn);
+  background: var(--highlight);
+  color: var(--text);
+  padding: var(--sp-4) var(--sp-5);
+  margin: 0;
+}
+.imaging-quote.verified {
+  border-left-color: var(--accent);
+}
+.imaging-added {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* Word-level comparison of two reports. Added words: green and underlined; removed: red and struck through (shape as
+   well as colour, so the colour never carries the meaning alone). */
+.imaging-diff {
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-prose);
+  max-width: 72ch;
+  margin: 0;
+}
+.imaging-diff .imaging-seg.add {
+  background: var(--ok-soft);
+  color: var(--ok);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  padding: 0 1px;
+}
+.imaging-diff .imaging-seg.del {
+  background: var(--bad-soft);
+  color: var(--bad);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  padding: 0 1px;
+}
+.imaging-diff-legend {
+  margin: 0;
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  color: var(--text-muted);
+  max-width: 80ch;
+}
+.imaging-diff-legend .add {
+  color: var(--ok);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.imaging-diff-legend .del {
+  color: var(--bad);
+  text-decoration: line-through;
+}
+.imaging-diff-legend .mono {
+  color: var(--text);
+}
+/* "Impression" and "Findings" inside a comparison: one step under a section header. */
+.imaging-compare-head {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+}
+.imaging-compare-pick {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+}
+.imaging-compare-pick select {
+  max-width: 380px;
+  min-width: 0;
+}
+
+/* The scan's image files. */
+.imaging-dicom {
+  display: flex;
+  flex-direction: column;
+}
+.imaging-dicom .row-item {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding: var(--sp-3) 0;
+  font-size: var(--fs-md);
+}
+.imaging-dicom-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.imaging-dicom-actions {
+  gap: var(--sp-4);
+  flex: none;
+}
+
+.imaging-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-4) var(--sp-5);
+}
+.imaging-form-grid .full {
+  grid-column: 1 / -1;
+}
+
+/* By document: the report's date and name in a group row, then where it came from and Open the report. The date
+   leads (never cut); the name wraps to two lines before it ends with "…" (the whole on hover). */
+.group-header .group-row > .group-header-title > .imaging-doc-head,
+.group-header .imaging-doc-head {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: clip;
+  max-width: 56ch;
+  padding: var(--sp-2) 0;
+  line-height: var(--lh-tight);
+}
+.group-header .imaging-doc-title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-group);
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+}
+.group-header .imaging-doc-date,
+.group-header .imaging-doc-date .mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.group-header .imaging-doc-open {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}

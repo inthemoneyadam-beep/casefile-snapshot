@@ -1,0 +1,286 @@
+/*
+ * Scan image viewer (routes/imaging_.viewer.$id.tsx). Three columns: the series
+ * list, the image on the sunken background with one status line under it, and
+ * the panel about these images. Colours and sizes come from tokens.css only;
+ * headers differentiate, not colour; no gradients.
+ */
+
+.dicom-viewer {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr) minmax(280px, 360px);
+  height: 100%;
+  min-height: 0;
+}
+.dicom-viewer > .dicom-col {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.dicom-viewer > .dicom-col + .dicom-col {
+  border-left: 1px solid var(--border);
+}
+
+/* Series list */
+.dicom-series .group-header > th {
+  cursor: default;
+  height: auto;
+  min-height: 32px;
+}
+.dicom-series .group-header > th:hover {
+  background: var(--surface);
+}
+.dicom-series .group-header-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  white-space: normal;
+  line-height: var(--lh-tight);
+  padding: var(--sp-2) 0;
+}
+.dicom-series .dicom-study-sub {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-muted);
+}
+.dicom-series .data-table td.n {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  text-align: right;
+}
+.dicom-series .data-table td.desc {
+  max-width: 150px;
+}
+.dicom-series .data-table td.dicom-series-type {
+  width: 40px;
+  white-space: nowrap;
+}
+.dicom-series .data-table tbody tr {
+  cursor: pointer;
+}
+.dicom-series .data-table tbody tr.group-header {
+  cursor: default;
+}
+
+/* The image */
+.dicom-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--bg-sunken);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.dicom-stage img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+.dicom-stage.pending img {
+  opacity: 0.85;
+}
+.dicom-message {
+  max-width: 480px;
+  padding: var(--sp-6);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: var(--lh-prose);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  align-items: flex-start;
+}
+.dicom-message strong {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+
+/* Status line under the image: words in the sans, the numbers in the mono. */
+.dicom-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-6);
+  align-items: baseline;
+  padding: var(--sp-3) var(--sp-6);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  min-height: 32px;
+}
+.dicom-status .mono {
+  color: var(--text);
+}
+.dicom-status .lead {
+  color: var(--text);
+}
+.dicom-status .spacer {
+  flex: 1;
+}
+.dicom-scrub {
+  height: 2px;
+  background: var(--border);
+  position: relative;
+}
+.dicom-scrub > span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: var(--accent);
+}
+
+/* Side panel: one fact to a row in the narrow column. */
+.dicom-side {
+  overflow: auto;
+}
+.dicom-side .detail {
+  padding: var(--sp-6) var(--sp-6) var(--sp-8);
+  gap: var(--gap-section);
+}
+.dicom-side .key-facts {
+  grid-template-columns: minmax(0, 1fr);
+}
+.dicom-side .key-fact {
+  grid-template-columns: minmax(7.5em, 9.5em) minmax(0, 1fr);
+}
+.dicom-none {
+  margin: 0;
+}
+.dicom-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-size: var(--fs-md);
+}
+.dicom-links .row-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+.dicom-links .row-item > a {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dicom-link-tags {
+  gap: var(--sp-3);
+  flex: none;
+}
+.dicom-uid {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  word-break: break-all;
+}
+/* The technical details, folded away: a plain disclosure that reads as an action. */
+.dicom-tech > summary {
+  cursor: pointer;
+  color: var(--accent-strong);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  width: max-content;
+}
+.dicom-tech[open] > summary {
+  margin-bottom: var(--sp-4);
+}
+.dicom-tech > summary:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Every detail in the file */
+.dicom-tags {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+.dicom-tags .dicom-tags-find {
+  --search-width: 100%;
+}
+.dicom-tags .dicom-tags-find input {
+  flex: 1;
+  min-width: 0;
+}
+.dicom-tags table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+.dicom-tags th {
+  text-align: left;
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+  padding: var(--sp-2);
+  border-bottom: 1px solid var(--border-strong);
+}
+.dicom-tags td {
+  padding: var(--sp-1) var(--sp-2);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dicom-tags .tag-id {
+  width: 92px;
+}
+.dicom-tags td.tag-id {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.dicom-tags .tag-vr {
+  width: 44px;
+}
+.dicom-tags td.tag-vr {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+.dicom-tags .tag-name {
+  width: 36%;
+}
+.dicom-tags td.tag-name {
+  color: var(--text-muted);
+}
+.dicom-tags td.tag-value {
+  font-family: var(--font-mono);
+  word-break: break-all;
+}
+.dicom-tags tr.private td {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .dicom-viewer {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(120px, 28vh) minmax(320px, 1fr) auto;
+    overflow: auto;
+  }
+  .dicom-viewer > .dicom-col + .dicom-col {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+}
+
+/* "can't show here" under a series name that this viewer cannot show. */
+.dicom-series-note {
+  display: block;
+  margin-top: var(--sp-1);
+}
+.dicom-series .data-table td.desc {
+  white-space: normal;
+}

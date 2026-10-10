@@ -1,0 +1,251 @@
+/*
+ * Access: the lock and first-run screens, the nav-foot access line, the
+ * "People with access" settings section and the getting-started page.
+ * Colours and sizes come from tokens.css only.
+ */
+
+/* --- Lock screen ---------------------------------------------------------- */
+.lock-card.setup {
+  width: 600px;
+}
+.lock-card .lock-who {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.lock-card .lock-who label {
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+.lock-card .lock-who select,
+.lock-card input[type='password'],
+.lock-card input[type='text'] {
+  width: 100%;
+}
+.lock-card .lock-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+}
+
+/* First run: the card is taller than a short window, so it scrolls and its top is never cut off. */
+.lock.setup-lock {
+  overflow-y: auto;
+  place-items: safe center;
+  padding: var(--sp-8) var(--sp-6);
+}
+.lock-card.setup .setup-mode {
+  align-self: flex-start;
+}
+.setup-form .setup-lead {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+
+/* Restore from a backup: the file, the progress, a drop target. */
+.restore-form.over {
+  outline: 1px dashed var(--accent);
+  outline-offset: var(--sp-4);
+}
+.restore-file {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+.restore-file .restore-name {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  max-width: 100%;
+  min-width: 0;
+  color: var(--text);
+}
+.restore-file .restore-size {
+  flex: none;
+  white-space: nowrap;
+}
+.restore-progress {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-size: var(--fs-sm);
+}
+.restore-bar {
+  height: 4px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.restore-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+/* First-run setup: the same form grid as Settings, laid out for the card. */
+.setup-form {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: var(--sp-4) var(--sp-6);
+  align-items: center;
+}
+.setup-form label {
+  text-align: right;
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+}
+.setup-form .field label {
+  text-align: left;
+  color: var(--text);
+}
+.setup-form .setup-group {
+  grid-column: 1 / -1;
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--border-strong);
+  font-family: var(--font-sans);
+  font-size: var(--fs-section);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+}
+.setup-form .setup-group small {
+  display: block;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-muted);
+  margin-top: var(--sp-2);
+  line-height: 1.5;
+}
+.lock-card .setup-intro {
+  margin: var(--sp-3) 0 0;
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.setup-form .setup-error {
+  grid-column: 1 / -1;
+}
+.setup-form .setup-check {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--text);
+}
+.setup-form .setup-themes {
+  display: inline-flex;
+}
+.setup-form .setup-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--border);
+}
+
+/* --- Nav foot: who is signed in -------------------------------------------- */
+.access-line {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-3) var(--sp-2) 0;
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+.access-line .who {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+.access-line .who .name {
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.access-line .who .role {
+  color: var(--text-muted);
+}
+.access-line .lan {
+  color: var(--warn);
+}
+
+/* --- Settings: people with access ----------------------------------------- */
+.users-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-9);
+}
+.users-section .users-table,
+.users-section .audit-log {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.users-section .users-table .table-wrap {
+  flex: none;
+  max-height: 320px;
+}
+.users-section .users-roles {
+  max-width: 820px;
+}
+.users-section .users-roles .key-fact dt {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+.users-section .users-roles .key-fact dd {
+  color: var(--text-muted);
+}
+.users-section .audit-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-4) var(--sp-6);
+}
+.users-section .audit-log .table-wrap {
+  flex: none;
+  max-height: 480px;
+}
+.users-section .audit-detail {
+  padding: var(--sp-5) var(--sp-6);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+/* --- Getting started ------------------------------------------------------- */
+.setup-page .setup-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  max-width: 860px;
+}
+.setup-page .step-path {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text);
+  word-break: break-all;
+}
+.setup-page .setup-skipped {
+  margin-top: var(--sp-2);
+}
+.setup-page .setup-next {
+  margin: 0;
+  padding-left: 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  line-height: 1.5;
+}

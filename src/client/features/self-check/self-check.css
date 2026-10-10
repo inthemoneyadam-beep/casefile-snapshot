@@ -1,0 +1,47 @@
+/* Checked against itself (2026-10-09): the block in "How much was read", the cost dialog, the facility line. Tokens only. */
+.sc-block {
+  margin-top: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.sc-ask {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+.sc-lines,
+.sc-findings {
+  margin: 0;
+  padding-left: 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  color: var(--text);
+}
+.sc-findings a {
+  color: var(--text);
+}
+.sc-facility {
+  margin: 0;
+}
+.sc-p,
+.sc-cost {
+  margin: 0;
+  color: var(--text);
+  max-width: 68ch;
+}
+.sc-cost {
+  font-weight: var(--fw-semibold);
+}
+.sc-dialog {
+  gap: var(--sp-4);
+}
+.sc-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--text);
+}

@@ -1,0 +1,264 @@
+/*
+ * The Care team page (routes/care-team.tsx) and the web sources under an answer of the clinician. Colours and sizes
+ * from tokens.css only; 8px rhythm; sentence case. Everything else is the shared system (base.css).
+ */
+
+/* A tag before a name in the list ("waiting", a status on All). */
+.ct-name-cell .tag {
+  margin-right: var(--sp-3);
+}
+
+/* Two-column forms in the dialogs. */
+.ct-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-4) var(--sp-5);
+}
+.ct-form .full {
+  grid-column: 1 / -1;
+}
+.ct-form textarea,
+.ct-form input,
+.ct-form select {
+  width: 100%;
+}
+
+/* A fact with its source line under it. */
+.ct-fact-source {
+  display: block;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  overflow-wrap: anywhere;
+}
+
+/* The Flare test: one row per item, the answer under its label. */
+.ct-flare {
+  display: grid;
+  gap: var(--sp-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ct-flare-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+.ct-flare-item:last-child {
+  border-bottom: 0;
+}
+.ct-flare-label {
+  font-weight: 600;
+  color: var(--text-heading);
+}
+.ct-flare-answer {
+  grid-column: 1 / -1;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: var(--lh-prose);
+}
+.ct-flare-empty {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+}
+.ct-flare-sources {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  overflow-wrap: anywhere;
+}
+
+/* Plain lists in the pane: sources, history, calls, to-dos, the queries of a search. */
+.ct-lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sp-2);
+}
+.ct-lines li {
+  overflow-wrap: anywhere;
+}
+.ct-lines .muted {
+  font-size: var(--fs-sm);
+}
+.ct-query {
+  font-family: var(--font-mono);
+}
+
+/* The note that a proposal came from the web. */
+.ct-outside {
+  margin: 0 0 var(--sp-4);
+}
+
+/* The checked queries in Find candidates. */
+.ct-checks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sp-2);
+}
+.ct-checks li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-3);
+  align-items: baseline;
+}
+.ct-checks .why {
+  grid-column: 2;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* The source fields in a dialog: a kind switch, then its boxes. */
+.ct-source-box {
+  display: grid;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.ct-fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-5);
+}
+.ct-fieldset label {
+  display: inline-flex;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+/* Under an answer of the clinician: outside sources from the web, apart from the citations. */
+.ask-web {
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--border);
+}
+.ask-web-head {
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: var(--sp-2);
+}
+.ask-web ol {
+  margin: 0;
+  padding-left: var(--sp-6);
+  display: grid;
+  gap: var(--sp-2);
+}
+.ask-web li {
+  overflow-wrap: anywhere;
+}
+.ask-web .muted {
+  font-size: var(--fs-sm);
+}
+
+/* A candidate's own notes. */
+.ct-notes {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: 68ch;
+  line-height: var(--lh-prose);
+}
+
+/* The one line under the toolbar: what the list holds (or that a web search is running). */
+.ct-view-line {
+  margin: 0;
+  padding: var(--sp-4) var(--page-x);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  box-shadow: inset 3px 0 0 var(--border-strong);
+}
+
+/* Request 6: "Verified by phone", under the facts. */
+.ct-phone-check {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+  align-items: baseline;
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+.ct-check {
+  display: inline-flex;
+  gap: var(--sp-2);
+  align-items: center;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+/* Request 6: the verdict on the whole flare test, above its rows. */
+.ct-verdict {
+  display: grid;
+  gap: var(--sp-2);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+.ct-verdict-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  align-items: baseline;
+}
+.ct-hint {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-prose);
+  max-width: 68ch;
+}
+
+/* The Sources column: "not backed" and "unverified" side by side. */
+.ct-row-tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+/* Request 6: the search scope switch and its words (Find candidates, Settings). */
+.ct-scope {
+  display: grid;
+  gap: var(--sp-2);
+}
+.ct-scope p {
+  margin: 0;
+  max-width: 72ch;
+}
+
+/* Settings: the licensing boards table. */
+.ct-boards {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 820px;
+}
+.ct-boards th {
+  text-align: left;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 0 var(--sp-3) var(--sp-2) 0;
+}
+.ct-boards td {
+  padding: 0 var(--sp-3) var(--sp-2) 0;
+  vertical-align: middle;
+}
+.ct-boards input[type='text'],
+.ct-boards input:not([type]) {
+  width: 100%;
+}
+.ct-board-state {
+  max-width: 64px;
+}
+
+/* A search's allowed sites, as one wrapping line. */
+.ct-sites {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  overflow-wrap: anywhere;
+}

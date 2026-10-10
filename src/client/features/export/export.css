@@ -1,0 +1,221 @@
+/* Make a packet. Colours and sizes come from tokens.css only. */
+
+/* The form: one readable column of numbered steps, full width of the page up to a measure. */
+.page-body.export-body {
+  padding-bottom: 0;
+}
+.export-builder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-section);
+}
+.export-steps,
+.export-builder > .section {
+  max-width: 1040px;
+}
+.export-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+}
+.export-builder input[type='text'],
+.export-builder textarea {
+  width: 100%;
+}
+.export-builder .field > label {
+  color: var(--text-muted);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+}
+.export-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-5) var(--sp-6);
+}
+.export-row.narrow {
+  max-width: 520px;
+}
+.export-row .full {
+  grid-column: 1 / -1;
+}
+
+/* Step 2: the document picker, a bounded table. */
+.export-docs-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-4) var(--sp-5);
+}
+.export-docs {
+  display: flex;
+  flex-direction: column;
+  height: 360px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.export-docs .table-wrap {
+  flex: 1;
+  min-height: 0;
+}
+.export-docs .data-table tbody tr.picked {
+  background: var(--accent-soft);
+}
+.export-docs .data-table tbody tr.picked.selected {
+  background: var(--surface-selected);
+}
+.export-docs td.export-pick input[type='checkbox'],
+.export-docs th.export-pick {
+  margin: 0;
+  vertical-align: middle;
+}
+.export-docs-foot {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-6);
+}
+
+/* Steps 3 to 6: choices, one per line when there is no room, each with its count. */
+.export-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-7);
+}
+.export-choices.column {
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.export-option {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  color: var(--text);
+  font-size: var(--fs-md);
+  cursor: pointer;
+  text-align: left;
+}
+.export-option input[type='radio'],
+.export-option input[type='checkbox'] {
+  margin: 0;
+  align-self: center;
+}
+.export-count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* Step 5: the kinds of entries, as toggles drawn like a chosen segment. */
+.filter-group.export-kinds {
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.filter-group.export-kinds > .filter-label {
+  padding-top: var(--sp-2);
+}
+.export-kind-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  max-width: 820px;
+}
+.filter-group.export-kinds > .muted {
+  flex-basis: 100%;
+}
+
+/* Step 7: lab tests, a bounded grid of checkboxes. */
+.export-labs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--sp-2) var(--sp-6);
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--bg);
+}
+.export-lab {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--sp-3);
+  align-items: baseline;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+  font-size: var(--fs-md);
+  padding: var(--sp-1) 0;
+}
+.export-lab input[type='checkbox'] {
+  margin: 0;
+  grid-row: 1 / span 2;
+  align-self: start;
+  margin-top: 3px;
+}
+.export-lab-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.export-lab-meta {
+  grid-column: 2;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* The footer that stays in view at the bottom of the form: the one primary action and what is still missing. */
+.export-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-4) var(--sp-6);
+  margin: 0 calc(-1 * var(--sp-7));
+  padding: var(--sp-4) var(--sp-7);
+  border-top: 1px solid var(--border-strong);
+  background: var(--surface);
+}
+.export-ready {
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+}
+.export-ready.needs {
+  color: var(--warn);
+}
+.export-nobrowser {
+  margin: var(--sp-4) var(--page-x) 0;
+}
+
+/* Preview: a bounded frame of the packet HTML. */
+.export-preview {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  height: 72vh;
+  min-height: 420px;
+  background: var(--bg-sunken);
+  overflow: hidden;
+}
+.export-preview iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* A packet already made. */
+.export-error {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--bad);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.table-wrap.export-appended-wrap {
+  flex: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.export-appended td.wrap {
+  white-space: normal;
+}

@@ -1,0 +1,135 @@
+/* Computed lab values (2026-10-09): the dialog, the value's pane and the range the patient types. Colours and sizes come
+   from tokens.css only; nothing red: a computed value is never judged. */
+
+.computed-dialog {
+  gap: var(--sp-3);
+}
+.computed-small {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  margin: 0;
+  line-height: var(--lh-prose);
+}
+.computed-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3) var(--sp-4);
+}
+.computed-slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding-top: var(--sp-2);
+  border-top: 1px solid var(--border);
+}
+.computed-unusable {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.computed-unusable summary {
+  cursor: pointer;
+}
+.computed-unusable ul,
+.computed-list {
+  margin: var(--sp-1) 0 0;
+  padding-left: var(--sp-5);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-prose);
+}
+.computed-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.computed-result {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+.computed-result-name {
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  color: var(--text-heading);
+}
+.computed-result-value {
+  font-size: var(--fs-xl);
+  color: var(--text);
+}
+.computed-label {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+
+/* The value's pane: its inputs, one row each. */
+.computed-inputs {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+.computed-inputs th {
+  text-align: left;
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+  font-size: var(--fs-th);
+  padding: var(--sp-1) var(--sp-2) var(--sp-1) 0;
+  border-bottom: 1px solid var(--border);
+}
+.computed-inputs td {
+  padding: var(--sp-2) var(--sp-2) var(--sp-2) 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.computed-inputs .mono {
+  font-family: var(--font-mono);
+}
+.computed-quote {
+  margin: var(--sp-1) 0 0;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+/* The range the patient types for a computed test: a dashed line on the chart, a plain line here. */
+.computed-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--sp-2) var(--sp-3);
+}
+.computed-range .field {
+  width: 7.5rem;
+}
+.computed-range-line {
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+.computed-range-swatch {
+  display: inline-block;
+  width: 18px;
+  border-top: 1.5px dashed var(--text-muted);
+  vertical-align: middle;
+  margin-right: var(--sp-2);
+}
+
+/* The open square that marks a computed value in a list (the chart draws the same). */
+.computed-square {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border: 1.5px solid var(--text-muted);
+  background: var(--surface);
+  vertical-align: 1px;
+  margin-right: var(--sp-1);
+}
+.computed-from {
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+.computed-changed {
+  color: var(--text);
+}

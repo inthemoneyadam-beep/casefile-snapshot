@@ -1,0 +1,21 @@
+ALTER TABLE `lab_results` ADD `value_raw` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `unit_raw` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `ref_raw` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `flag_raw` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `raw_source` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `value_kind` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `value_comparator` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `value_parsed` real;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `unit_parsed` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `ref_status` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `ref_parsed_low` real;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `ref_low_comparator` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `ref_parsed_high` real;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `ref_high_comparator` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `flag_computed` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `resulted_at` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `resulted_at_precision` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `resulted_at_text` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `date_kind` text;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `parse_version` integer;--> statement-breakpoint
+ALTER TABLE `lab_results` ADD `parse_json` text;

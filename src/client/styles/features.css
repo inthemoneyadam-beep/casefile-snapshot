@@ -1,0 +1,142 @@
+/*
+ * Shared feature classes that more than one route relies on. Imported once
+ * from main.tsx (after base.css) so a page never depends on another route's
+ * stylesheet having loaded first. Per-feature rules stay in
+ * src/client/features/<feature>/<feature>.css.
+ */
+
+/* Key hints in a page toolbar (ui/Toolbar.tsx KeyHints renders these):
+   <span class="keys"><span><Kbd>j</Kbd> next</span> ...</span> */
+.toolbar .keys {
+  display: inline-flex;
+  gap: var(--sp-5);
+  align-items: center;
+  flex-wrap: wrap;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.toolbar .keys span {
+  display: inline-flex;
+  gap: var(--sp-2);
+  align-items: center;
+  white-space: nowrap;
+}
+
+/*
+ * GroupedList group rows (src/client/ui/GroupedList.tsx). A group row reads
+ * as a group: the sans, semibold, in the body colour on the surface band,
+ * a caret that says it folds, and its count. A sub-group row is one step
+ * down: semibold in the heading colour on the page background, indented by
+ * the caret's width. Both are sticky under the column header row. The only
+ * extra mark is a thin left rule in --border-strong on CSF groups (`.rule`).
+ * Offsets come from --group-top, set by the list to the column-header height
+ * (or 0).
+ */
+.group-header > th {
+  position: sticky;
+  top: var(--group-top, 0px);
+  z-index: 2;
+  height: var(--group-height);
+  padding: 0 var(--sp-4);
+  font-family: var(--font-sans);
+  font-size: var(--fs-group);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text);
+  background: var(--surface);
+  border-top: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+}
+.group-header > th:hover {
+  background: var(--surface-hover);
+}
+.group-header.rule > th {
+  box-shadow: inset 3px 0 0 var(--border-strong);
+}
+.group-header.collapsed > th {
+  color: var(--text-muted);
+}
+.group-caret {
+  display: inline-block;
+  width: 1.1em;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  transition: transform 0.12s ease;
+}
+.group-header.collapsed .group-caret {
+  transform: rotate(-90deg);
+}
+.group-header-title {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+.group-header-title .tag {
+  vertical-align: middle;
+}
+/* Caret, header, count on one line: the header's first part (a long document name) is what gives way, with "…";
+   the count and the header's links never do. */
+.group-row {
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+  max-width: 100%;
+}
+.group-row > .group-caret,
+.group-row > .group-header-n {
+  flex: none;
+}
+.group-row > .group-header-title {
+  display: flex;
+  flex: 0 1 auto;
+  overflow: hidden;
+}
+.group-row > .group-header-title > * {
+  flex: none;
+}
+.group-row > .group-header-title > :first-child {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.group-header-n {
+  margin-left: var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-muted);
+}
+.group-subheader > th {
+  position: sticky;
+  top: calc(var(--group-top, 0px) + var(--group-height));
+  z-index: 2;
+  height: var(--subgroup-height);
+  padding: 0 var(--sp-4) 0 calc(var(--sp-4) + 1.1em);
+  font-family: var(--font-sans);
+  font-size: var(--fs-subgroup);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-heading);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.group-subheader.rule > th {
+  box-shadow: inset 3px 0 0 var(--border-strong);
+}
+.group-subheader > th .group-header-n {
+  margin-left: var(--sp-4);
+}

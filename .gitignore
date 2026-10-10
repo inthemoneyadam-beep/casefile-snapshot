@@ -1,0 +1,23 @@
+node_modules/
+# Folders at the top of the project only. Windows matches names without regard to case, so an unanchored "Files/"
+# also hid src/server/files/ (2026-10-07: unzip.ts had never been committed). Private data stays ignored at the top.
+/dist/
+/data/
+/backups/
+*.log
+.DS_Store
+Thumbs.db
+.vite/
+coverage/
+src/client/routeTree.gen.ts
+/Files/
+.tmp/
+*.pdf
+.tscache/
+/set-aside/
+# The case folder restore renames aside (scripts/restore.ts: data.bak-<ms>/), other .bak and set-aside folders kept
+# at the top, and the README's seed example folder: each can hold an encrypted case and its wrapped key.
+/data.bak-*/
+/*.bak*/
+/*.set-aside*/
+/data-demo/

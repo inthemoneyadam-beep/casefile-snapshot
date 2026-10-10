@@ -1,0 +1,179 @@
+/* Timeline: the density strip, the periods and their one-line items. Imported by routes/timeline.tsx. Tokens only. */
+
+/* The density strip under the toolbar. */
+.timeline-strip {
+  padding: var(--sp-4) var(--page-x) 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.timeline-strip svg {
+  display: block;
+  width: 100%;
+  height: 48px;
+}
+/* The bars are quiet (the faint text colour at half strength): in dark a solid faint block was the brightest area on
+   the page. The chosen period stays in the accent. */
+.timeline-strip rect.bar {
+  cursor: pointer;
+  fill: color-mix(in srgb, var(--text-faint) 45%, transparent);
+}
+.timeline-strip rect.bar.active {
+  fill: var(--accent);
+}
+.timeline-strip rect.bar.hit {
+  fill: transparent;
+}
+.timeline-strip rect.window {
+  fill: var(--accent-soft);
+}
+.timeline-strip text {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  fill: var(--text-muted);
+  user-select: none;
+}
+.timeline-strip-foot {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-6);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  padding-bottom: var(--sp-3);
+}
+.timeline-strip-foot .mono {
+  color: var(--text);
+}
+
+/* The list: one period per group header, its items one line each. */
+.timeline-list {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0 var(--page-x) var(--sp-7);
+}
+.timeline-period + .timeline-period {
+  margin-top: var(--sp-4);
+}
+.timeline-period .group-title {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg);
+}
+.timeline-period-kinds {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-muted);
+  text-align: right;
+}
+.timeline-rows {
+  display: flex;
+  flex-direction: column;
+}
+/* One row: date (mono) · kind (sans, muted) · title, then where it came from (muted) · a tag when it says something.
+   Title and source take two lines at most (the value, the date or what tells two documents apart shows), then end
+   with "…"; the whole is on hover and in the pane. */
+.timeline-rows .timeline-item {
+  display: grid;
+  grid-template-columns: 96px 112px minmax(0, 1fr) auto;
+  gap: var(--sp-4);
+  align-items: baseline;
+  min-height: var(--row-height);
+  padding: var(--sp-2) var(--sp-3);
+  margin: 0 calc(-1 * var(--sp-3));
+  border-bottom: 1px solid var(--border);
+  border-left: 2px solid transparent;
+  font-size: var(--fs-md);
+  cursor: default;
+}
+.timeline-rows .timeline-item:hover {
+  background: var(--surface-hover);
+}
+.timeline-rows .timeline-item.selected {
+  background: var(--surface-selected);
+  border-left-color: var(--accent);
+}
+.timeline-item-date {
+  white-space: nowrap;
+  color: var(--text);
+}
+.timeline-item-kind {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.timeline-item-body {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+.timeline-item-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+.timeline-item-detail {
+  /* A fixed share, so every row's source starts at the same place. */
+  flex: 0 0 38%;
+  max-width: 38%;
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.timeline-item-tags {
+  display: inline-flex;
+  gap: var(--sp-2);
+  align-items: baseline;
+}
+.timeline-item-tags:empty {
+  display: none;
+}
+/* Faint text on a selected row is lifted to muted (4.5:1 on the selected surface). */
+.timeline-rows .timeline-item.selected .faint {
+  color: var(--text-muted);
+}
+.timeline-more {
+  padding: var(--sp-2) 0 0;
+}
+.timeline-cap {
+  margin: var(--sp-4) 0;
+}
+
+/* The pane. */
+.timeline-detail-kind {
+  color: var(--text);
+  font-weight: var(--fw-medium);
+}
+.timeline-detail-text {
+  margin: 0;
+  line-height: var(--lh-prose);
+  max-width: 72ch;
+  white-space: pre-wrap;
+}
+.timeline-window {
+  color: var(--text);
+  white-space: nowrap;
+}
+.timeline-answer {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+}

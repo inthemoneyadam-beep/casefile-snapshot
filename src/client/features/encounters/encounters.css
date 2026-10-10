@@ -1,0 +1,198 @@
+/*
+ * Appointments: the list's cells, the questions checklist, the prep sheet's
+ * ledgers and the form. Colours and sizes from tokens.css only; 8px rhythm;
+ * sentence case. Everything else is the shared system (base.css).
+ */
+
+/* List cells: the date with the time under it; the title with a tag before it ("date passed", "cancelled"). */
+.en-when {
+  display: flex;
+  flex-direction: column;
+  padding: 3px 0;
+  line-height: var(--lh-table);
+}
+.en-when .en-time {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+}
+.en-title-cell .tag {
+  margin-right: var(--sp-3);
+}
+
+/* Whole-page empty state, then the visit documents under it; the right pane while nothing is chosen. */
+.en-empty {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.en-empty-docs {
+  padding: 0 var(--page-x) var(--sp-8);
+  max-width: 980px;
+}
+.en-idle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding-bottom: var(--sp-8);
+}
+.en-idle > .section {
+  padding: 0 var(--page-x);
+}
+.en-idle > .section:first-child {
+  padding-top: var(--sp-6);
+}
+.en-doc-row {
+  grid-template-columns: 104px minmax(0, 1fr) auto;
+  align-items: center;
+}
+.en-doc-title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+.en-doc-kind {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* A short muted sentence where a section has nothing yet (with its button). */
+.en-none {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+}
+
+.en-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 68ch;
+  line-height: var(--lh-prose);
+}
+
+/* Questions checklist. */
+.en-questions {
+  display: flex;
+  flex-direction: column;
+}
+.en-question {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--sp-4);
+  align-items: start;
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+.en-question.asked .q {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.en-question .q {
+  white-space: normal;
+  word-break: break-word;
+}
+.en-question input[type='checkbox'] {
+  margin-top: 3px;
+}
+.en-question .answer {
+  font-size: var(--fs-md);
+  color: var(--text);
+  margin-top: var(--sp-2);
+  white-space: pre-wrap;
+}
+.en-answer-label {
+  color: var(--text-muted);
+}
+.en-question .answer input {
+  width: 100%;
+}
+.en-add {
+  display: flex;
+  gap: var(--sp-3);
+}
+.en-add input {
+  flex: 1;
+}
+
+/* Prep sheet and pane ledgers: date, what (with a muted line under it), a tag. */
+.en-ledger {
+  display: flex;
+  flex-direction: column;
+}
+.en-ledger-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  gap: var(--sp-5);
+  align-items: baseline;
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--fs-md);
+  color: inherit;
+}
+a.en-ledger-row:hover {
+  background: var(--surface-hover);
+  text-decoration: none;
+}
+.en-ledger-row.en-med-row {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+.en-ledger-row .when {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.en-ledger-row .what {
+  white-space: normal;
+  word-break: break-word;
+  min-width: 0;
+}
+.en-ledger-row .what .sub {
+  display: block;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* Add or edit an appointment. */
+.en-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-4) var(--sp-5);
+}
+.en-form .full {
+  grid-column: 1 / -1;
+}
+.en-form .field label {
+  text-transform: none;
+}
+.en-form textarea,
+.en-form input,
+.en-form select {
+  width: 100%;
+}
+.en-docs {
+  max-height: 180px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  padding: var(--sp-3) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  font-size: var(--fs-md);
+}
+.en-docs label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--text);
+  cursor: pointer;
+}
+.en-outcomes textarea {
+  width: 100%;
+}

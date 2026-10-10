@@ -1,0 +1,52 @@
+/* The wrong-patient guard (2026-10-09): a document held back as "May be someone else's record". Tokens only. */
+
+.held-why {
+  margin: var(--sp-3) 0 var(--sp-4);
+  line-height: 1.5;
+}
+
+.held-table td,
+.held-table th {
+  vertical-align: top;
+}
+
+/* "It prints record number ..., not on your list." with its one button. */
+.held-offer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.held-offer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-4);
+}
+
+/* "Patient not confirmed on document" on a document's page: one quiet line. */
+.patient-line {
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.patient-line.warn {
+  color: var(--text);
+  box-shadow: inset 3px 0 0 var(--warn);
+  padding-left: var(--sp-3);
+}
+
+/* Settings, Patient details: my record numbers. */
+.record-numbers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.record-number-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+}

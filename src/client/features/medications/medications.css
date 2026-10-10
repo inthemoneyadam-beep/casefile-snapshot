@@ -1,0 +1,404 @@
+/* Medications: the list, allergies, the history chart, the detail pane and the emergency card. Colours and sizes come
+   from tokens.css only. */
+
+/* The Never give banner, under the page header on every view. */
+.med-hardstop {
+  margin: 0 var(--page-x) var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.med-hardstop-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-7);
+  font-size: var(--fs-base);
+}
+.med-hardstop-list .substance {
+  font-weight: var(--fw-semibold);
+}
+.med-hardstop-list .reaction {
+  color: var(--text-muted);
+}
+
+/* The one line under the toolbar: what this list holds. */
+.med-list-intro {
+  margin: 0;
+  padding: var(--sp-4) var(--page-x);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.med-list-intro strong {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+
+/* Empty states: the one next step and a second, side by side. */
+.med-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+}
+
+/* A Started cell whose start was never written down. */
+.med-unrecorded {
+  color: var(--text-muted);
+}
+
+/* The proposals dialog: a statement wrapped to two lines. */
+.med-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+  line-height: var(--lh-table);
+}
+
+/* Detail pane */
+.med-generic {
+  color: var(--text-muted);
+}
+.med-prewrap {
+  white-space: pre-wrap;
+}
+.med-none {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.med-notice {
+  margin: 0;
+}
+.med-stamps {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+/* Where this came from: what the document says, the words on its page, and the page. */
+.med-fact {
+  border-left: 2px solid var(--accent);
+  background: var(--surface);
+  padding: var(--sp-4) var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-size: var(--fs-md);
+}
+.med-fact.unverified {
+  border-left-color: var(--warn);
+}
+.med-fact .statement {
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+}
+.med-fact .quote {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.5;
+}
+.med-fact-from {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3) var(--sp-5);
+  font-size: var(--fs-sm);
+}
+.med-fact-warn {
+  color: var(--warn);
+}
+.med-fact-link {
+  font-size: var(--fs-sm);
+}
+/* Events: a small table in the pane. Headers as everywhere (sans, sentence case); dates in the mono. */
+.med-events {
+  width: 100%;
+}
+.med-events th,
+.med-events td {
+  height: auto;
+  padding: var(--sp-3) var(--sp-4);
+  white-space: normal;
+  vertical-align: baseline;
+}
+.med-events th.date,
+.med-events td.date {
+  white-space: nowrap;
+  padding-left: 0;
+}
+.med-events td.actions {
+  text-align: right;
+  white-space: nowrap;
+  padding-right: 0;
+}
+/* A dose ("150 mg") and the event's tag stay on one line; Details and From wrap instead. */
+.med-events td.mono,
+.med-events td.med-event-kind {
+  white-space: nowrap;
+}
+
+/* Dialogs */
+.med-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-5) var(--sp-6);
+}
+.med-form-grid .full {
+  grid-column: 1 / -1;
+}
+.med-form-grid .field label {
+  text-transform: none;
+}
+.med-check {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--text);
+  font-size: var(--fs-md);
+}
+.med-proposals {
+  display: flex;
+  flex-direction: column;
+  max-height: 48vh;
+  overflow: auto;
+}
+/* Find in your documents: a proposal whose name is not one drug (a list heading, two drugs in one line). */
+.med-not-med {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--warn);
+}
+.med-proposal-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+}
+
+/* History chart. The legend, in words, sits above it. */
+.gantt {
+  padding: var(--sp-3) var(--page-x) 0;
+  outline: none;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.gantt:focus-visible {
+  outline: 1.5px solid var(--focus);
+  outline-offset: -1px;
+}
+.gantt svg {
+  display: block;
+}
+.gantt svg text {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  fill: var(--text-muted);
+}
+.gantt .row-label {
+  fill: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+}
+.gantt .row-sub {
+  fill: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+}
+.gantt .row-bg {
+  fill: transparent;
+  cursor: default;
+}
+.gantt .row-bg:hover {
+  fill: var(--surface-hover);
+}
+.gantt .row-bg.selected {
+  fill: var(--surface-selected);
+}
+/* A course whose start was never written down: drawn from its first mention, dashed. */
+.gantt .bar-unrecorded {
+  fill-opacity: 0.28;
+  stroke-width: 1.25;
+  stroke-dasharray: 4 3;
+}
+.gantt-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-5);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  padding: var(--sp-4) var(--page-x) var(--sp-2);
+}
+.gantt-legend-label {
+  font-weight: var(--fw-medium);
+  color: var(--text-heading);
+}
+.gantt-legend i {
+  display: inline-block;
+  width: 12px;
+  height: 10px;
+  margin-right: var(--sp-3);
+  vertical-align: -1px;
+}
+.gantt-legend i.tick {
+  width: 2px;
+  height: 12px;
+}
+.gantt-legend i.dashed {
+  box-sizing: border-box;
+  width: 16px;
+  background: transparent;
+  border: 1.25px dashed var(--text-muted);
+}
+
+/* Under the chart: each course in the hover's words, one line each; a click selects it. */
+.gantt-words {
+  list-style: none;
+  margin: var(--sp-5) 0 var(--sp-6);
+  padding: var(--sp-4) 0 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+.gantt-words button {
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) minmax(0, 1fr);
+  gap: var(--sp-5);
+  width: 100%;
+  padding: var(--sp-2) var(--sp-3);
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: var(--fs-md);
+  text-align: left;
+  cursor: pointer;
+}
+.gantt-words button:hover {
+  background: var(--surface-hover);
+}
+.gantt-words li.selected button {
+  background: var(--surface-selected);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.gantt-words-name {
+  color: var(--text);
+}
+
+/* Emergency card (print view; also readable on screen) */
+.ec .ec-tools {
+  display: flex;
+  gap: var(--sp-4);
+  align-items: center;
+  margin-bottom: var(--sp-6);
+  color: var(--text-faint);
+  font-size: var(--fs-xs);
+}
+.ec .ec-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--sp-3) var(--sp-7);
+  align-items: start;
+  margin-bottom: 10pt;
+}
+.ec .ec-patient {
+  font-family: var(--font-serif);
+  font-size: 18pt;
+  line-height: 1.2;
+}
+.ec .ec-facts {
+  display: grid;
+  grid-template-columns: max-content auto;
+  column-gap: var(--sp-5);
+  row-gap: 2pt;
+  font-size: 10pt;
+  margin: 0;
+}
+.ec .ec-facts dt {
+  color: var(--text-muted);
+}
+.ec .ec-facts dd {
+  margin: 0;
+  font-family: var(--font-mono);
+}
+/* "not set" is words, not data: the sans. */
+.ec .ec-facts dd .ec-empty {
+  font-family: var(--font-sans);
+}
+.ec .hardstop {
+  margin: 8pt 0 12pt;
+}
+.ec .hardstop strong {
+  font-size: 12pt;
+}
+.ec .hardstop .big {
+  font-size: 13pt;
+  font-weight: 600;
+}
+.ec .hardstop td {
+  border-bottom-color: var(--danger);
+}
+.ec table {
+  width: 100%;
+}
+.ec th,
+.ec td {
+  height: auto;
+  padding: 2pt 6pt;
+  white-space: normal;
+  vertical-align: top;
+  font-size: 10pt;
+}
+.ec th {
+  position: static;
+  background: transparent;
+}
+/* Doses, phone numbers and emails are kept on one line ("150 mg", "555-0101"); the words around them wrap. */
+.printable.ec td.mono {
+  white-space: nowrap;
+}
+.ec .ec-summary {
+  font-family: var(--font-serif);
+  font-size: 11pt;
+  line-height: 1.5;
+  max-width: none;
+  margin: 0;
+  white-space: pre-wrap;
+}
+.ec .ec-empty {
+  color: var(--text-faint);
+  font-size: 10pt;
+}
+.ec .ec-contacts div {
+  font-size: 10pt;
+  padding: 1pt 0;
+}
+@media print {
+  .ec .ec-tools {
+    display: none !important;
+  }
+  .ec .hardstop .big {
+    color: inherit; /* print.css sets the hard-stop ink */
+  }
+  /* print.css's token overrides on :root lose to the theme rules on :root[data-theme], so --text-muted would print
+     in the on-screen theme's grey (about 2.7:1 on paper in dark). The card's labels take the body ink instead. */
+  .ec .ec-facts dt,
+  .printable.ec .meta {
+    color: inherit;
+  }
+}
+
+/* An allergy name with its "never give" tag beside it. */
+.med-substance {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-4);
+}

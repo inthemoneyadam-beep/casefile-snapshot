@@ -1,0 +1,220 @@
+/* Home (routes/index.tsx, features/home/HomeSections.tsx): one column in the order you act on it, with Coming up
+   and Recently added side by side. Colours come from tokens.css only; spacing on the 8px rhythm (8 inside a block,
+   16 between blocks, 24 between sections). Words in the sans; dates in the mono. */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-section, 24px);
+  padding: var(--sp-6) var(--page-x) var(--sp-8);
+}
+.home > * {
+  max-width: 1280px;
+}
+.home-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--gap-section, 24px) var(--sp-8);
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .home-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.home-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Waiting for you: each line says what and why, with its one button at the right. */
+.home-waiting-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--warn-soft);
+  box-shadow: inset 3px 0 0 var(--warn);
+  font-size: var(--fs-base);
+  line-height: 1.45;
+  color: var(--text);
+}
+.home-waiting-row + .home-waiting-row {
+  margin-top: var(--sp-2);
+}
+.home-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--warn);
+}
+.home-row-words {
+  flex: 1;
+  min-width: 0;
+}
+.home-row-words strong {
+  font-weight: var(--fw-semibold);
+}
+.home-row-action {
+  flex: none;
+}
+
+/* For your information: calm, apart from what needs you; the tag carries the colour, the words stay plain. */
+.home-fyi {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+.home-fyi-head {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+}
+.home-fyi-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: var(--fs-base);
+}
+
+/* Coming up and Recently added: rows that are links (date first, in the mono; the name; the kind at the right). */
+.home-link-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-5);
+  min-height: 36px;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: var(--fs-base);
+  text-decoration: none;
+}
+.home-link-row:hover {
+  background: var(--surface-hover);
+  text-decoration: none;
+}
+.home-link-row:focus-visible,
+.home .btn:focus-visible,
+.home-more:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.home-link-row:focus-visible {
+  background: var(--surface-selected);
+}
+.home-date {
+  flex: none;
+  width: 92px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.home-date .muted {
+  font-family: var(--font-sans);
+}
+/* "overdue" / "date passed" under a Coming up date. */
+.home-late {
+  display: block;
+  margin-top: var(--sp-1);
+  font-family: var(--font-sans);
+}
+.home-doc-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-kind {
+  flex: none;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.home-kind.bad {
+  color: var(--bad);
+}
+.home-recent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+.home-added {
+  padding: 0 var(--sp-4) var(--sp-2);
+  color: var(--text-heading);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+}
+.home-more {
+  font-size: var(--fs-md);
+  color: var(--accent-strong);
+}
+.home-quiet {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+}
+.home-empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+/* Ask the clinician: the question box, then one line and the Ask button at the right. */
+.home-ask {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+.home-ask textarea {
+  width: 100%;
+  resize: vertical;
+  font-size: var(--fs-base);
+  min-height: 56px;
+}
+.home-ask-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4) var(--sp-6);
+  font-size: var(--fs-md);
+}
+
+/* Add documents: one slim strip (the whole window takes drops too). */
+.home-drop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4) var(--sp-6);
+  padding: var(--sp-4) var(--sp-5);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.45;
+}
+.home-drop strong {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+.home-drop.over {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.home-drop-words {
+  min-width: 0;
+}

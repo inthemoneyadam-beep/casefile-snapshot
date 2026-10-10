@@ -1,0 +1,674 @@
+/* Documents: list, detail pane, and the full-page viewer. Colours come from tokens.css only. */
+
+.doc-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.doc-drop-overlay {
+  position: absolute;
+  inset: var(--sp-4);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: var(--accent-soft);
+}
+.btn[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.doc-detail:focus {
+  outline: none;
+}
+.doc-subtable th,
+.doc-subtable td {
+  height: 24px;
+  font-size: var(--fs-sm);
+}
+.doc-subtable td.wrap {
+  white-space: normal;
+}
+.progress {
+  width: 120px;
+  height: 3px;
+  background: var(--border);
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+.progress > i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.text-bad {
+  color: var(--bad);
+}
+/* Viewer */
+.viewer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 38%);
+  /* One row exactly as tall as the page body, so each column scrolls on its
+     own instead of the grid growing to the full document (which the clipped
+     page body then hid, leaving nothing to scroll). */
+  grid-template-rows: minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+}
+.viewer-main {
+  overflow: auto;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.viewer-side {
+  border-left: 1px solid var(--border);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.viewer-side .section-title {
+  padding: var(--sp-4) var(--sp-6) 0;
+}
+.viewer-side .table-foot {
+  padding-left: var(--sp-6);
+}
+.cite-banner {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  margin: var(--sp-4) var(--sp-7);
+  background: var(--surface-raised);
+}
+.cite-banner q {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--text);
+  quotes: '\201C' '\201D';
+}
+.pagetext.current {
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.pagetext .pagenum .pagemeta {
+  display: inline-flex;
+  gap: var(--sp-4);
+  align-items: center;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.pagetext .pagebody {
+  margin: 0;
+}
+.pageimg {
+  display: block;
+  max-width: 100%;
+  margin-top: var(--sp-5);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.page-gap {
+  padding: var(--sp-4) var(--sp-7);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-faint);
+  font-size: var(--fs-sm);
+  display: flex;
+  gap: var(--sp-4);
+  align-items: center;
+}
+.viewer-original {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.viewer-original iframe {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: var(--bg-sunken);
+}
+.viewer-original img {
+  max-width: 100%;
+  display: block;
+  margin: var(--sp-6) var(--sp-7);
+  border: 1px solid var(--border);
+}
+.viewer-status {
+  padding: var(--sp-6) var(--sp-7);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+}
+.page-input {
+  width: 64px;
+  text-align: right;
+  font-family: var(--font-mono);
+}
+
+/* ---------------------------------------------------------------------------
+ * The document's summary (DocumentBrief.tsx): readable sentence-case headers in
+ * the sans, hairline rules, dense tables with a header row, muted labels that
+ * end in a colon. No cards, no colour blocks; red only for a value outside its
+ * normal range and for an inaccurate detail.
+ * --------------------------------------------------------------------------- */
+.brief {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  max-width: 92ch;
+}
+.brief.compact {
+  max-width: none;
+}
+.brief-status,
+.brief-empty {
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+}
+.brief-empty {
+  padding: var(--sp-4) 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+/* Where it came from, its date, who wrote it (the full page; the pane has these in its key facts). */
+.brief-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-6);
+  align-items: center;
+  font-size: var(--fs-md);
+}
+.brief-kv {
+  display: inline-flex;
+  gap: var(--sp-3);
+  align-items: baseline;
+  white-space: nowrap;
+}
+.brief-kv .k,
+.brief-counts .k {
+  color: var(--text-muted);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+}
+.brief-counts {
+  font-size: var(--fs-md);
+  color: var(--text);
+  padding-bottom: var(--sp-4);
+  border-bottom: 1px solid var(--border-strong);
+}
+.brief-summary {
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-prose);
+  margin: 0;
+  max-width: 68ch;
+}
+.brief-nosummary {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+}
+.brief-note {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  margin-top: calc(-1 * var(--sp-4));
+}
+.brief-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+/* A table's header (Medications, CSF, Diagnoses): the section header of the system, with its count. */
+.brief-h {
+  font-family: var(--font-sans);
+  font-size: var(--fs-section);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+  margin: 0;
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border-strong);
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+}
+.brief-n {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-muted);
+}
+/* A panel and its date inside the lab tables ("CSF basic   2024-09-17"). */
+.brief-sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-4);
+  margin-top: var(--sp-3);
+  font-size: var(--fs-subgroup);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+  padding-bottom: var(--sp-1);
+}
+.brief-sub .mono {
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.brief-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-md);
+}
+.brief-table th {
+  position: static;
+  height: auto;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-sm);
+  color: var(--text-heading);
+  background: transparent;
+  padding: var(--sp-2) var(--sp-3) var(--sp-2) 0;
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+.brief-table td {
+  height: auto;
+  padding: var(--sp-2) var(--sp-3) var(--sp-2) 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: var(--lh-table);
+}
+.brief-table td.wrap {
+  white-space: normal;
+}
+.brief-table td.name {
+  color: var(--text);
+}
+.brief-table td.num,
+.brief-table th.num {
+  text-align: right;
+  white-space: nowrap;
+}
+.brief-table td.num .unit {
+  color: var(--text-muted);
+}
+.brief-table td.ref,
+.brief-table td.flag,
+.brief-table td.src,
+.brief-table td.marks {
+  white-space: nowrap;
+}
+.brief-table td.src,
+.brief-table th.src {
+  text-align: right;
+  padding-right: 0;
+  width: 1%;
+}
+.brief-table td.marks,
+.brief-table th.marks {
+  width: 1%;
+}
+.brief-table.labs td.name {
+  width: 40%;
+}
+/* A lab value with its unit and, right beside it, its "high" / "low" (as on Lab results). */
+.brief-table td.val,
+.brief-table th.val {
+  white-space: nowrap;
+}
+.brief-table td.val .unit {
+  color: var(--text-muted);
+}
+.brief-table td.val .flag:not(:empty) {
+  margin-left: var(--sp-3);
+  font-family: var(--font-sans);
+}
+.brief-table td.val .flag .tag {
+  vertical-align: 1px;
+}
+.brief-table th.val + th,
+.brief-table td.val + td {
+  padding-left: var(--sp-5);
+}
+.brief-table tr.oor td.name,
+.brief-table tr.oor td.val,
+.brief-table tr.oor td.num {
+  color: var(--text);
+  font-weight: var(--fw-medium);
+}
+.brief-table tr.overridden td.name,
+.brief-table tr.overridden td.wrap {
+  color: var(--text-muted);
+}
+.brief-marks {
+  display: inline-flex;
+  gap: var(--sp-3);
+  align-items: center;
+}
+.brief-link {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--accent-strong);
+  white-space: nowrap;
+}
+.brief-points {
+  margin: 0;
+  padding-left: 1.4em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+.brief-points li > span {
+  margin-right: var(--sp-3);
+}
+.brief-chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--accent-strong);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 0 var(--sp-2);
+  line-height: 18px;
+  white-space: nowrap;
+}
+.brief-chip.unverified {
+  color: var(--warn);
+}
+.brief-chart {
+  margin-top: var(--sp-3);
+}
+.brief-people {
+  margin: 0;
+  font-size: var(--fs-md);
+  line-height: var(--lh-prose);
+}
+/* Which model sorted it and when the summary was built: folded at the end. */
+.brief-foot {
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.brief-foot > summary {
+  cursor: pointer;
+  width: max-content;
+}
+.brief-foot > summary:hover {
+  color: var(--text);
+}
+.brief-foot-body {
+  padding-top: var(--sp-3);
+  line-height: 1.5;
+}
+
+/* The document pane: Claude's suggested name or date, a likely copy. */
+.doc-title-proposal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  align-items: baseline;
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+}
+.doc-title-proposal q {
+  font-family: var(--font-serif);
+  color: var(--text);
+  quotes: '\201C' '\201D';
+}
+.doc-notices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+/* Edit details: the form, then the technical tables folded under one header. */
+.doc-edit-form {
+  max-width: 640px;
+}
+.doc-technical > summary {
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--fs-section);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border-strong);
+}
+.doc-technical[open] > summary {
+  margin-bottom: var(--sp-5);
+}
+.doc-technical-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-section);
+}
+
+/* The full document page: the summary view. */
+.viewer-brief {
+  padding: var(--sp-6) var(--page-x);
+  overflow: auto;
+}
+
+/* The documents list: the not-sorted dot, a short status after the name. */
+.doc-name-status {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.doc-name-status.bad {
+  color: var(--bad);
+}
+.doc-name-place {
+  color: var(--text-muted);
+}
+
+/* The full document page: where it came from, type, date, pages and status on one line under the title. */
+.doc-page-meta {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-5);
+}
+.viewer-side-intro {
+  margin: var(--sp-2) var(--sp-6) var(--sp-3);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+/* A value right-aligned, then its normal range: air between them. */
+.brief-table th.num + th,
+.brief-table td.num + td {
+  padding-left: var(--sp-6);
+}
+
+/* Documents waiting to be sorted (routes/documents.tsx): one plain line under the toolbar with the count, the reason
+   and Sort them now, marked by an ochre rule like the dot in the list. */
+.doc-backlog {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-5);
+  padding: var(--sp-4) var(--page-x);
+  border-bottom: 1px solid var(--border);
+  box-shadow: inset 3px 0 0 var(--warn);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.doc-backlog-words {
+  flex: 1 1 420px;
+  min-width: 0;
+}
+.doc-backlog strong {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+
+/* How much was read (Coverage.tsx, 2026-10-07): the page strip, the facts, the report and the outline. */
+.doc-coverage .key-facts {
+  margin-top: var(--sp-3);
+}
+.doc-coverage-ask {
+  margin: 0 0 var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-left: 3px solid var(--warn);
+  background: var(--surface);
+  color: var(--text);
+}
+.doc-strip-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.doc-strip {
+  display: flex;
+  height: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-sunken);
+}
+.doc-strip-run {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 1px;
+  flex-basis: 0;
+  cursor: pointer;
+  background: transparent;
+}
+.doc-strip-run.s-done,
+.doc-strip-swatch.s-done {
+  background: var(--ok);
+}
+.doc-strip-run.s-parsed,
+.doc-strip-swatch.s-parsed {
+  background: var(--info);
+}
+.doc-strip-run.s-skipped,
+.doc-strip-swatch.s-skipped,
+.doc-strip-run.s-no_text,
+.doc-strip-swatch.s-no_text {
+  background: var(--ash);
+}
+.doc-strip-run.s-failed,
+.doc-strip-swatch.s-failed {
+  background: var(--bad);
+}
+.doc-strip-run.s-running,
+.doc-strip-swatch.s-running {
+  background: var(--warn);
+}
+.doc-strip-run.s-pending,
+.doc-strip-swatch.s-pending {
+  background: transparent;
+}
+.doc-strip-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-5);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.doc-strip-key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.doc-strip-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--border-strong);
+}
+.doc-coverage-problems {
+  margin: var(--sp-3) 0 0;
+  padding-left: 1.2em;
+  color: var(--warn);
+}
+.doc-coverage-report {
+  margin-top: var(--sp-4);
+}
+.doc-coverage-report ul {
+  margin: var(--sp-2) 0 0;
+  padding-left: 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+.doc-coverage-subhead {
+  font-weight: 600;
+  color: var(--text-heading);
+  font-size: var(--fs-md);
+}
+.doc-outline {
+  margin-top: var(--sp-4);
+}
+.doc-outline > summary {
+  cursor: pointer;
+  color: var(--text-heading);
+  font-weight: 600;
+  font-size: var(--fs-md);
+}
+.doc-outline-table td.wrap {
+  white-space: normal;
+}
+
+.doc-detail .text-warn {
+  color: var(--warn);
+}
+.doc-outline-table td.mono {
+  white-space: nowrap;
+}
+.doc-outline-table td.doc-outline-state {
+  white-space: nowrap;
+}
+
+/* The lab check under How much was read (2026-10-08): one sentence, its pages as links, the lines folded. */
+.doc-labcheck {
+  margin-top: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.doc-labcheck-line {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--fs-md);
+  line-height: var(--lh-table);
+}
+.doc-labcheck-pages {
+  margin: 0;
+}
+.doc-labcheck-rows > summary {
+  cursor: pointer;
+  color: var(--text-heading);
+  font-weight: 600;
+  font-size: var(--fs-md);
+}
+.doc-labcheck-rows ul {
+  margin: var(--sp-2) 0 0;
+  padding-left: 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  font-size: var(--fs-sm);
+}
+.doc-labcheck-rows .mono {
+  overflow-wrap: anywhere;
+}
+.doc-labcheck .text-warn {
+  color: var(--warn);
+}
+.doc-labcheck-fact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}

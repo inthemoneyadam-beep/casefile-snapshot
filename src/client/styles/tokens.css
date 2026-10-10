@@ -1,0 +1,267 @@
+/*
+ * Casefile design tokens. Every colour, size and space in the app comes from here.
+ * Themes: dark (default), dim (everything lower), light (secondary).
+ * Modifiers: [data-large] bumps the type scale; [data-reduced] lowers text contrast.
+ * No pure white (#fff) or pure black (#000) anywhere.
+ *
+ * Contrast (docs/DESIGN.md has the full table; tests/ui-system-contrast.test.ts
+ * checks it): in dark, dim and light every text token below (--text,
+ * --text-heading, --text-muted, --text-faint, --accent-strong and the status
+ * colours) reads at 4.5:1 or more on every surface (--bg, --bg-sunken,
+ * --surface, --surface-raised, --surface-hover, --surface-selected), and a
+ * status colour on its own -soft tint too.
+ */
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Surfaces: warm near-black. */
+  --bg: #15130f;
+  --bg-sunken: #100e0b;
+  --surface: #1b1814;
+  --surface-raised: #221e19;
+  --surface-hover: #27221c;
+  --surface-selected: #232d29;
+
+  /* Hairlines. */
+  --border: #2c2721;
+  --border-strong: #3d372e;
+
+  /* Text: off-white, never white.
+     --text          body text, table cells, titles
+     --text-heading  headers that are not titles: section headers, column
+                     headers, sub-group rows, sidebar group names
+     --text-muted    secondary text: intros, labels in a key-facts grid, units
+     --text-faint    the quietest text: counts, key hints, footnotes */
+  --text: #e4ded3;
+  --text-heading: #cdc6ba;
+  --text-muted: #aaa397;
+  --text-faint: #9a9387;
+  --text-inverse: #15130f;
+
+  /* Accent: oxidised copper (verdigris). State only, never decoration. */
+  --accent: #6aa394;
+  --accent-strong: #86bcad;
+  --accent-soft: rgba(106, 163, 148, 0.16);
+  --focus: #86bcad;
+
+  /* Status. */
+  --ok: #8aa36a;        /* confirmed: moss */
+  --ok-soft: rgba(138, 163, 106, 0.12);
+  --warn: #c0a35a;      /* unverified: ochre */
+  --warn-soft: rgba(192, 163, 90, 0.12);
+  --bad: #c8836c;       /* disputed, out of range: rust */
+  --bad-soft: rgba(200, 131, 108, 0.11);
+  --danger: #da7b6c;    /* hard stop */
+  --danger-soft: rgba(218, 123, 108, 0.11);
+  --ash: #99938a;       /* superseded */
+  --ash-soft: rgba(153, 147, 138, 0.12);
+  --info: #85a1b6;      /* AI/system notices */
+  --info-soft: rgba(133, 161, 182, 0.12);
+
+  /* Highlight for cited passages in the document viewer. */
+  --highlight: rgba(192, 163, 90, 0.28);
+  --highlight-strong: rgba(192, 163, 90, 0.5);
+
+  /* Charts: muted, distinguishable, no purple. A point outside the normal
+     range is drawn in --chart-out (whether or not the report flagged it), as
+     a diamond; the normal range is the --chart-band fill. --chart-out is a
+     deeper red than --danger so it separates from the --chart-1 line in
+     lightness too (1.69:1 here, 1.75:1 in light; --danger was 1.04:1) while
+     keeping 3:1 on the background (3.81:1). */
+  --chart-1: #6aa394;
+  --chart-2: #c0a35a;
+  --chart-3: #c0735a;
+  --chart-4: #7f9bb0;
+  --chart-5: #8aa36a;
+  --chart-6: #b58a6a;
+  --chart-grid: #2c2721;
+  --chart-out: #c4473a;
+  --chart-band: rgba(138, 163, 106, 0.12);
+
+  /* Typography. Titles in the serif; every label, header and control in the
+     sans; data (values, dates, units, counts, ids) in the mono. */
+  --font-serif: 'Newsreader', 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-sans: 'IBM Plex Sans', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+
+  /* The scale. */
+  --fs-xs: 12px;      /* key caps, footnotes, tags */
+  --fs-sm: 12.5px;    /* secondary lines, small buttons, labels */
+  --fs-md: 13.5px;    /* table cells, controls, sidebar items */
+  --fs-base: 14.5px;  /* body text, page intro */
+  --fs-lg: 16px;
+  --fs-xl: 20px;
+  --fs-2xl: 26px;
+  --fs-3xl: 32px;
+
+  /* The hierarchy (what each level of header uses; docs/DESIGN.md, Type). */
+  --fs-page-title: var(--fs-2xl);  /* serif 500, --text */
+  --fs-page-intro: var(--fs-base); /* sans 400, --text-muted */
+  --fs-detail-title: var(--fs-xl); /* serif 500, --text */
+  --fs-section: 15px;              /* sans 600, --text-heading, sentence case */
+  --fs-group: var(--fs-base);      /* sans 600, --text (group rows in a list) */
+  --fs-subgroup: var(--fs-md);     /* sans 600, --text-heading */
+  --fs-th: 13px;                   /* sans 600, --text-heading (column headers) */
+  --fs-label: var(--fs-sm);        /* sans 500, --text-muted (filter labels, key-facts labels) */
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+
+  --lh-tight: 1.3;
+  --lh-table: 1.4;
+  --lh-prose: 1.6;
+
+  /* Spacing: a 4px base on an 8px rhythm (8, 16, 24, 32 between blocks). */
+  --sp-1: 2px;
+  --sp-2: 4px;
+  --sp-3: 6px;
+  --sp-4: 8px;
+  --sp-5: 12px;
+  --sp-6: 16px;
+  --sp-7: 24px;
+  --sp-8: 32px;
+  --sp-9: 48px;
+  --page-x: var(--sp-7);       /* left and right padding of the page and panes */
+  --gap-section: var(--sp-7);  /* between sections of a detail pane */
+
+  --radius: 2px;
+  --radius-lg: 4px;
+
+  --nav-width: 220px;
+  --row-height: 30px;
+  --th-height: 32px;
+  --group-height: 34px;
+  --subgroup-height: 30px;
+  --control-height: 30px;
+  --control-height-sm: 26px;
+
+  --shadow-popover: 0 8px 28px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border-strong);
+}
+
+:root[data-theme='dim'] {
+  color-scheme: dark;
+  --bg: #0e0d0b;
+  --bg-sunken: #0a0908;
+  --surface: #12110e;
+  --surface-raised: #171511;
+  --surface-hover: #1b1915;
+  --surface-selected: #1b2320;
+  --border: #211e19;
+  --border-strong: #2e2a23;
+  /* Dim lowers everything on purpose, and still keeps 4.5:1 for every text token. */
+  --text: #b9b3a8;
+  --text-heading: #aaa498;
+  --text-muted: #9a9488;
+  --text-faint: #8f897e;
+  --text-inverse: #0e0d0b;
+  --accent: #5a8a7d;
+  --accent-strong: #70a192;
+  --accent-soft: rgba(90, 138, 125, 0.14);
+  --focus: #70a192;
+  --ok: #7a915c;
+  --ok-soft: rgba(122, 145, 92, 0.1);
+  --warn: #a08848;
+  --warn-soft: rgba(160, 136, 72, 0.1);
+  --bad: #b77b66;
+  --bad-soft: rgba(183, 123, 102, 0.1);
+  --danger: #c77364;
+  --danger-soft: rgba(199, 115, 100, 0.1);
+  --ash: #8f897e;
+  --ash-soft: rgba(143, 137, 126, 0.1);
+  --info: #768d9d;
+  --info-soft: rgba(118, 141, 157, 0.1);
+  --highlight: rgba(160, 136, 72, 0.22);
+  --highlight-strong: rgba(160, 136, 72, 0.4);
+  --chart-grid: #211e19;
+  --chart-band: rgba(122, 145, 92, 0.1);
+  --shadow-popover: 0 8px 28px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-strong);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f1ece3;
+  --bg-sunken: #e9e3d8;
+  --surface: #f6f2ea;
+  --surface-raised: #faf7f1;
+  --surface-hover: #ece6dc;
+  --surface-selected: #dde6e1;
+  --border: #d9d1c4;
+  --border-strong: #bfb5a5;
+  --text: #28241f;
+  --text-heading: #3d3731;
+  --text-muted: #5a534a;
+  --text-faint: #665f54;
+  --text-inverse: #f6f2ea;
+  --accent: #36705f;
+  --accent-strong: #2d6254;
+  --accent-soft: rgba(54, 112, 95, 0.12);
+  --focus: #2d6254;
+  --ok: #4c622f;
+  --ok-soft: rgba(76, 98, 47, 0.1);
+  --warn: #70581b;
+  --warn-soft: rgba(112, 88, 27, 0.1);
+  --bad: #8f4629;
+  --bad-soft: rgba(143, 70, 41, 0.1);
+  --danger: #a33225;
+  --danger-soft: rgba(163, 50, 37, 0.1);
+  --ash: #605a54;
+  --ash-soft: rgba(96, 90, 84, 0.1);
+  --info: #445e74;
+  --info-soft: rgba(68, 94, 116, 0.1);
+  --highlight: rgba(141, 111, 34, 0.22);
+  --highlight-strong: rgba(141, 111, 34, 0.42);
+  --chart-1: #36705f;
+  --chart-2: #8d6f22;
+  --chart-3: #a0502f;
+  --chart-4: #4f6d85;
+  --chart-5: #5f7a3c;
+  --chart-6: #8a5f3c;
+  --chart-grid: #d9d1c4;
+  --chart-out: #7d1f14;
+  --chart-band: rgba(83, 107, 52, 0.1);
+  --shadow-popover: 0 8px 28px rgba(40, 36, 31, 0.18), 0 0 0 1px var(--border-strong);
+}
+
+/* Reduced contrast: pull text toward the background (chosen in Settings, for
+   light sensitivity). Body text, headers and muted text still keep 4.5:1. */
+:root[data-reduced][data-theme='dark'] {
+  --text: #cfc9be;
+  --text-heading: #bab3a7;
+  --text-muted: #a19a8e;
+  --text-faint: #9a9387;
+}
+:root[data-reduced][data-theme='dim'] {
+  --text: #a8a297;
+  --text-heading: #9d978b;
+  --text-muted: #948e82;
+  --text-faint: #8f897e;
+}
+:root[data-reduced][data-theme='light'] {
+  --text: #3d3832;
+  --text-heading: #4b453e;
+  --text-muted: #5e574d;
+  --text-faint: #665f54;
+}
+
+/* Large type. */
+:root[data-large] {
+  --fs-xs: 13px;
+  --fs-sm: 14px;
+  --fs-md: 15px;
+  --fs-base: 16px;
+  --fs-lg: 18px;
+  --fs-xl: 22px;
+  --fs-2xl: 29px;
+  --fs-3xl: 36px;
+  --fs-section: 17px;
+  --fs-th: 14.5px;
+  --row-height: 34px;
+  --th-height: 36px;
+  --group-height: 38px;
+  --subgroup-height: 34px;
+  --control-height: 34px;
+  --control-height-sm: 30px;
+  --nav-width: 244px;
+}

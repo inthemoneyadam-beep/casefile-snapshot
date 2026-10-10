@@ -1,0 +1,364 @@
+/* Check before filing (the inbox): the drop area, the list of uploads, the suggestion and its form, and the global drop
+   notice. Colours come from tokens.css only; headers are the shared sans, sentence case. */
+
+.inbox-drop {
+  margin: var(--sp-6) var(--page-x) 0;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  padding: var(--sp-6) var(--sp-7);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  cursor: pointer;
+  outline: none;
+  max-width: 72ch;
+}
+.inbox-drop .lead {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+}
+.inbox-drop-hint {
+  line-height: 1.5;
+}
+/* Once uploads are waiting: one quiet line above the list. */
+.inbox-drop.compact {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-4);
+  margin: 0;
+  max-width: none;
+  padding: var(--sp-3) var(--page-x);
+  border-width: 0 0 1px;
+  border-style: solid;
+  border-color: var(--border);
+  border-radius: 0;
+}
+.inbox-drop.compact .lead {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+}
+.inbox-drop.compact .inbox-drop-hint {
+  font-size: var(--fs-sm);
+}
+.inbox-drop:focus-visible {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.inbox-drop.over {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.inbox-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.inbox-empty {
+  overflow: auto;
+}
+
+/* An upload in the list: its title on up to two lines, then one small line (file, institution, date). */
+.inbox-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 3px 0;
+}
+.inbox-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+  line-height: var(--lh-table);
+}
+.inbox-sub {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-table);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* One line under the toolbar: what the list holds, or (warn) that Claude is off (as on Reconciliation). */
+.inbox-list-line {
+  margin: 0;
+  padding: var(--sp-4) var(--page-x);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  box-shadow: inset 3px 0 0 var(--border-strong);
+}
+.inbox-list-line.warn {
+  box-shadow: inset 3px 0 0 var(--warn);
+}
+.inbox-list-line strong {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+
+/* The suggestion and the form in the detail pane. */
+.proposal-summary {
+  font-size: var(--fs-base);
+  line-height: var(--lh-prose);
+  max-width: 72ch;
+  margin: 0;
+  color: var(--text);
+}
+.proposal-why,
+.proposal-line {
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  max-width: 72ch;
+  margin: 0;
+  color: var(--text);
+}
+.proposal-form {
+  display: grid;
+  grid-template-columns: minmax(8em, max-content) minmax(0, 1fr);
+  gap: var(--sp-4) var(--sp-5);
+  align-items: center;
+}
+.proposal-form > label {
+  color: var(--text-muted);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+}
+.proposal-form input,
+.proposal-form select {
+  width: 100%;
+  min-width: 0;
+}
+.proposal-form .or-new {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-3);
+}
+.proposal-with-note {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+.proposal-with-note > select,
+.proposal-with-note > input {
+  flex: 1 1 auto;
+}
+.check-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.check-list-sub {
+  padding-left: var(--sp-7);
+}
+.check-list label {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  color: var(--text);
+  font-size: var(--fs-md);
+  cursor: pointer;
+}
+.check-list label .meta {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.check-list label.off {
+  color: var(--text-muted);
+}
+.inbox-snippet {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text);
+  border-left: 2px solid var(--border-strong);
+  padding: var(--sp-3) var(--sp-5);
+  max-height: 320px;
+  overflow: auto;
+  margin: 0;
+}
+/* Key points of the suggestion: each cites a page; a quote not found word for word is marked (as in the document brief). */
+.proposal-points-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.proposal-points {
+  margin: 0;
+  padding-left: 1.4em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  font-size: var(--fs-md);
+  line-height: var(--lh-table);
+  max-width: 72ch;
+}
+.proposal-points li > span {
+  margin-right: var(--sp-3);
+}
+.proposal-chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--accent-strong);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 0 var(--sp-2);
+  line-height: 18px;
+  white-space: nowrap;
+}
+.proposal-chip.unverified {
+  color: var(--warn);
+}
+.filing-record {
+  font-size: var(--fs-md);
+  color: var(--text);
+}
+.filing-record ul {
+  margin: var(--sp-2) 0 0;
+  padding-left: 1.2em;
+}
+.text-warn {
+  color: var(--warn);
+}
+
+/*
+ * The "adding" banner (GlobalDropZone, mounted by the Shell): centred at the top of the window, larger than a toast,
+ * dark-first and quiet. The raised surface carries it; a 3px left edge says where it stands (info while working, ok,
+ * warn, bad); nothing is filled with a bright colour.
+ */
+.upload-banner {
+  position: fixed;
+  top: var(--sp-5);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 61;
+  width: min(720px, calc(100vw - 2 * var(--sp-6)));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  pointer-events: none;
+}
+.upload-banner-item {
+  pointer-events: auto;
+  background: var(--surface-raised);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--info);
+  box-shadow: var(--shadow-popover);
+  padding: var(--sp-5) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+}
+/* A long reading folds to one line (title, pages so far, Show, Hide) so the page's title and toolbar stay usable. */
+.upload-banner-item.folded {
+  align-self: center;
+  max-width: 100%;
+  padding: var(--sp-2) var(--sp-4) var(--sp-2) var(--sp-5);
+  gap: 0;
+}
+.upload-banner-item.folded .upload-banner-head {
+  align-items: center;
+  gap: var(--sp-4);
+}
+.upload-banner-item.folded .upload-banner-title {
+  font-size: var(--fs-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.upload-banner-count {
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  white-space: nowrap;
+}
+.upload-banner-actions {
+  display: flex;
+  gap: var(--sp-2);
+  flex: none;
+}
+.upload-banner-item.ok {
+  border-left-color: var(--ok);
+}
+.upload-banner-item.warn {
+  border-left-color: var(--warn);
+}
+.upload-banner-item.bad {
+  border-left-color: var(--bad);
+}
+.upload-banner-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-5);
+}
+.upload-banner-title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-section);
+  font-weight: 600;
+  color: var(--text-heading);
+  overflow-wrap: anywhere;
+}
+.upload-banner-doc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.upload-banner-doc + .upload-banner-doc {
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-3);
+}
+.upload-banner-doctitle {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.upload-banner-sentence {
+  margin: 0;
+  color: var(--text);
+}
+.upload-banner-note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+}
+.upload-banner-problems {
+  margin: 0;
+  padding-left: 1.2em;
+  color: var(--warn);
+  font-size: var(--fs-md);
+}
+.upload-banner-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4);
+  font-size: var(--fs-md);
+}
+.upload-banner-progress {
+  height: 4px;
+  background: var(--bg-sunken);
+  border: 1px solid var(--border);
+}
+.upload-banner-progress i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}

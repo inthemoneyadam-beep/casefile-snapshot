@@ -1,0 +1,38 @@
+# What `railway up` never uploads from this folder (gitignore rules: a leading "/" means the top of the project
+# only, a name without a slash matches at any depth, a trailing "/" means a folder; names compare with case, hence
+# the [xX] classes). Keep in step with .dockerignore. No "!" lines: scripts/deploy-ignore.ts proves with this file
+# that nothing private leaves the computer (npm run deploy:check). Railway also reads .gitignore; this file does
+# not rely on it.
+
+# The case, the records, backups and anything set aside: never.
+/[dD][aA][tT][aA]/
+/[dD][aA][tT][aA].*/
+/[dD][aA][tT][aA]-*/
+/[fF][iI][lL][eE][sS]/
+/[bB][aA][cC][kK][uU][pP][sS]/
+/[sS][eE][tT]-[aA][sS][iI][dD][eE]/
+/*.[bB][aA][kK]*
+/*.[sS][eE][tT]-[aA][sS][iI][dD][eE]*
+*.[pP][dD][fF]
+*.[dD][bB]
+*.[dD][bB]-*
+*.[sS][qQ][lL][iI][tT][eE]*
+[kK][eE][yY][rR][iI][nN][gG]*.[jJ][sS][oO][nN]
+[kK][eE][yY][rR][iI][nN][gG]-[bB][aA][cC][kK][uU][pP][sS]/
+*.[zZ][iI][pP]
+
+# Local tools, builds and scratch.
+/.git
+/.claude/
+/.tanstack/
+.tmp/
+/.tscache/
+/.vite/
+node_modules/
+/dist/
+/coverage/
+/tests/
+*.log
+.env*
+/*.cmd
+/AGENTS.md

@@ -1,0 +1,429 @@
+/* Symptom diary: the day's scores, the 14-day strip, the day pane, the chart and Symptoms you track. Imported by
+   routes/symptoms.tsx. Colours and sizes from tokens.css only. */
+
+/* Five shades of the accent, faintest to strongest, for the strip's boxes (the stronger the colour, the worse; in dark
+   a stronger colour looks lighter, so the legend never says "darker"). The chosen score in the
+   day's scores has its own fills (see .sym-cell.on.sym-tone-N) so its digit stays readable. */
+.sym-tone-empty {
+  background: transparent;
+  border-color: var(--border-strong);
+  border-style: dashed;
+}
+.sym-tone-1 {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.sym-tone-2 {
+  background: color-mix(in srgb, var(--accent) 32%, transparent);
+}
+.sym-tone-3 {
+  background: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+.sym-tone-4 {
+  background: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+.sym-tone-5 {
+  background: color-mix(in srgb, var(--accent) 92%, transparent);
+}
+
+/* Toolbar: the day box (a date typed as YYYY-MM-DD) and the chart window. */
+.toolbar input[type='text'].sym-date {
+  width: 112px;
+  font-family: var(--font-mono);
+}
+.sym-window {
+  font-size: var(--fs-sm);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* Empty states: the one next step and a second, side by side. */
+.sym-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+}
+.sym-prose {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  max-width: 80ch;
+}
+
+/* 14-day strip */
+.sym-strip {
+  padding: var(--sp-4) var(--page-x) var(--sp-3);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  overflow-x: auto;
+  flex: none;
+}
+.sym-strip table {
+  width: auto;
+  border-collapse: separate;
+  border-spacing: 3px 3px;
+}
+.sym-strip th,
+.sym-strip td {
+  border: 0;
+  padding: 0;
+  height: auto;
+  line-height: 1;
+  vertical-align: middle;
+}
+.sym-strip th {
+  position: static;
+  background: transparent;
+  font-weight: var(--fw-regular);
+  text-align: center;
+}
+.sym-strip th.label,
+.sym-strip td.label {
+  text-align: right;
+  padding-right: var(--sp-4);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sym-strip th.label {
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+}
+.sym-day-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 26px;
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+.sym-day-btn .dd {
+  font-family: var(--font-mono);
+}
+.sym-day-btn:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.sym-strip th.sel .sym-day-btn {
+  color: var(--accent-strong);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+.sym-strip th.today .sym-day-btn .dd {
+  color: var(--text);
+}
+.sym-dot {
+  display: block;
+  width: 26px;
+  height: 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 0;
+  cursor: pointer;
+}
+/* A day not scored keeps the dashed box the legend promises (.sym-dot's own transparent border must not win). */
+.sym-dot.sym-tone-empty {
+  border: 1px dashed var(--border-strong);
+}
+.sym-strip td.sel .sym-dot {
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.sym-strip td.sleep {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-align: center;
+  cursor: pointer;
+  height: 16px;
+}
+.sym-strip td.sleep.sel {
+  color: var(--accent-strong);
+}
+.sym-strip-key {
+  margin: var(--sp-3) 0 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.sym-key-dots {
+  display: inline-flex;
+  gap: 2px;
+}
+.sym-key-dots i {
+  display: block;
+  width: 14px;
+  height: 10px;
+  border-radius: var(--radius);
+}
+
+/* The day's scores */
+.sym-grid {
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+.sym-grid:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--focus);
+}
+/* Name, the 0-10 scale, the note: fits the diary's pane at 1280 wide (about 630px) with the note still readable. */
+.sym-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) auto minmax(110px, 1fr);
+  gap: var(--sp-4);
+  align-items: center;
+  padding: var(--sp-2) var(--page-x);
+  border-bottom: 1px solid var(--border);
+  min-height: calc(var(--row-height) + 4px);
+  border-left: 2px solid transparent;
+}
+/* The header row reads like a table's column headers: sans, sentence case, the heading colour. */
+.sym-row.head {
+  min-height: var(--th-height);
+  color: var(--text-heading);
+  font-size: var(--fs-th);
+  font-weight: var(--fw-semibold);
+  border-bottom-color: var(--border-strong);
+  position: sticky;
+  top: 0;
+  background: var(--surface-raised);
+  z-index: 1;
+}
+.sym-row:not(.head):hover {
+  background: var(--surface-hover);
+}
+.sym-row.focused {
+  background: var(--surface-selected);
+  border-left-color: var(--accent);
+}
+.sym-name {
+  font-size: var(--fs-md);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sym-has-note {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.sym-scale {
+  display: inline-flex;
+  gap: 2px;
+}
+.sym-cell {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg-sunken);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+  line-height: 1;
+}
+.sym-cell:hover {
+  border-color: var(--text-faint);
+  color: var(--text);
+}
+.sym-cell.on {
+  color: var(--text);
+  border-color: transparent;
+  font-weight: var(--fw-semibold);
+}
+/*
+ * The selected cell's fill. These rules must out-rank `.sym-cell` (which sets
+ * the sunken background) by specificity, not by source order. The fills are
+ * translucent, so they blend with the row behind (bg, surface, hover or the
+ * focused row's surface-selected); each pairing keeps the 600-weight digit at
+ * 4.6:1 or better over every one of those in the dark, dim and light themes.
+ * Tones 1–3 carry --text over a light accent wash; 4–5 carry --text-inverse
+ * over --accent-strong, the higher-contrast end of the accent in every theme.
+ * The strip's boxes keep the lighter .sym-tone-N ramp above (no digit there).
+ */
+.sym-cell.on.sym-tone-1 {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.sym-cell.on.sym-tone-2 {
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
+}
+.sym-cell.on.sym-tone-3 {
+  background: color-mix(in srgb, var(--accent) 36%, transparent);
+}
+.sym-cell.on.sym-tone-4 {
+  background: color-mix(in srgb, var(--accent-strong) 90%, transparent);
+  color: var(--text-inverse);
+}
+.sym-cell.on.sym-tone-5 {
+  background: var(--accent-strong);
+  color: var(--text-inverse);
+}
+.sym-note {
+  height: 26px;
+  font-size: var(--fs-sm);
+  padding: 0 var(--sp-3);
+  width: 100%;
+}
+.sym-note:disabled {
+  opacity: 0.6;
+  border-style: dashed;
+}
+
+/* The day pane: label, box, and what the scale's ends mean. */
+.sym-day {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: var(--sp-4) var(--sp-5);
+  align-items: center;
+}
+.sym-day label {
+  text-align: right;
+  color: var(--text-muted);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+}
+.sym-day textarea {
+  width: 100%;
+}
+.sym-day-field {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+}
+.sym-day-field input:not(.sym-num) {
+  flex: 1;
+  min-width: 160px;
+}
+.sym-day .sym-num {
+  width: 112px;
+  font-family: var(--font-mono);
+}
+.sym-hint {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+.sym-recent-list {
+  display: flex;
+  flex-direction: column;
+}
+.sym-recent {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: baseline;
+  width: 100%;
+  padding: var(--sp-3) var(--sp-3);
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 0;
+}
+.sym-recent:hover,
+.sym-recent:focus-visible {
+  background: var(--surface-hover);
+}
+.sym-recent-date {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.sym-recent-who {
+  color: var(--text-heading);
+  font-weight: var(--fw-medium);
+}
+.sym-recent-text {
+  font-size: var(--fs-md);
+  color: var(--text);
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+/* Chart view */
+.sym-chart-body {
+  overflow: auto;
+}
+.sym-charts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-section);
+  max-width: 1180px;
+}
+.sym-charts > .empty-state {
+  padding-left: 0;
+  padding-right: 0;
+}
+.sym-figure {
+  margin: 0;
+}
+.sym-toggles {
+  flex-wrap: wrap;
+  row-gap: var(--sp-3);
+}
+.sym-toggles .sym-toggle + .sym-toggle {
+  margin-left: 0;
+}
+.sym-overlays {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-7);
+  align-items: start;
+}
+.sym-overlay-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-size: var(--fs-md);
+}
+.sym-overlay-date {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  margin-right: var(--sp-4);
+}
+/* "Medications in this window": how the rows under the chart are drawn, then one line per medication. */
+.sym-lanes-key {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  max-width: 72ch;
+}
+.sym-med-words {
+  color: var(--text-muted);
+}
+.sym-chart-foot {
+  font-size: var(--fs-sm);
+}
+@media (max-width: 1100px) {
+  .sym-overlays {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Import dialog: the values an import would replace (or replaced). */
+.sym-import-diff {
+  max-height: 260px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.sym-import-diff table {
+  width: 100%;
+}

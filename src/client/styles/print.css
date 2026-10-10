@@ -1,0 +1,193 @@
+/*
+ * Print styles that actually work. The emergency card, daily plan, briefings
+ * and packet pages set body.print-view and render only .printable.
+ */
+@media print {
+  @page {
+    size: Letter;
+    margin: 0.6in 0.65in;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color: #111 !important;
+    font-size: 11pt;
+    line-height: 1.4;
+    height: auto;
+  }
+  /* Paper tokens. The selector list matches the specificity of the theme rules in tokens.css
+     (:root[data-theme='x'] and :root[data-reduced][data-theme='x']); this file loads after
+     tokens.css, so these win in print whatever theme or contrast is set on screen. */
+  :root,
+  :root[data-theme],
+  :root[data-theme][data-reduced] {
+    color-scheme: light;
+    --bg: #fff;
+    --bg-sunken: #fff;
+    --surface: #fff;
+    --surface-raised: #fff;
+    --surface-hover: #fff;
+    --surface-selected: #fff;
+    --text: #111;
+    --text-heading: #222;
+    --text-muted: #444;
+    --text-faint: #777;
+    --text-inverse: #fff;
+    --border: #bbb;
+    --border-strong: #888;
+    --accent: #2f6657;
+    --accent-strong: #2f6657;
+    --accent-soft: rgba(47, 102, 87, 0.12);
+    --focus: #2f6657;
+    --ok: #5f7a3c;
+    --ok-soft: rgba(95, 122, 60, 0.12);
+    --warn: #7a5f1c;
+    --warn-soft: rgba(141, 111, 34, 0.12);
+    --bad: #a0502f;
+    --bad-soft: rgba(160, 80, 47, 0.12);
+    --danger: #a0281c;
+    --danger-soft: #fbeae7;
+    --ash: #666;
+    --ash-soft: rgba(102, 102, 102, 0.12);
+    --info: #4f6d85;
+    --info-soft: rgba(79, 109, 133, 0.12);
+    --highlight: rgba(141, 111, 34, 0.2);
+    --highlight-strong: rgba(141, 111, 34, 0.38);
+    --chart-1: #2f6657;
+    --chart-2: #8d6f22;
+    --chart-3: #a0502f;
+    --chart-4: #4f6d85;
+    --chart-5: #5f7a3c;
+    --chart-6: #8a5f3c;
+    --chart-grid: #d9d4cc;
+    --shadow-popover: none;
+  }
+  .nav,
+  .statusbar,
+  .toolbar,
+  .palette-backdrop,
+  .toasts,
+  .dock,
+  .menu,
+  .split-handle,
+  .no-print,
+  button,
+  .btn {
+    display: none !important;
+  }
+  .shell {
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+  .main,
+  .page,
+  .page-body,
+  .split,
+  .split-left,
+  .split-right,
+  .table-wrap {
+    display: block !important;
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+  .split-handle {
+    display: none;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  h1,
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+  table {
+    page-break-inside: auto;
+  }
+  tr {
+    page-break-inside: avoid;
+  }
+  th {
+    position: static;
+    background: #fff;
+    color: #333;
+    border-bottom: 1px solid #333;
+  }
+  td,
+  th {
+    padding: 2pt 6pt;
+    border-bottom: 1px solid #ccc;
+    white-space: normal;
+  }
+  .tag {
+    border: 1px solid #888;
+    background: none;
+    color: #111;
+  }
+  .hardstop {
+    border: 2px solid #a0281c;
+    background: #fbeae7;
+    color: #111;
+  }
+  .hardstop strong {
+    color: #a0281c;
+  }
+  .printable {
+    display: block;
+  }
+  .page-break {
+    page-break-before: always;
+  }
+  .print-only {
+    display: block !important;
+  }
+}
+.print-only {
+  display: none;
+}
+
+/* A dedicated print view (e.g. /print/emergency-card) also looks right on screen. */
+body.print-view {
+  background: var(--bg);
+}
+body.print-view .printable {
+  max-width: 7.3in;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-7);
+  font-size: var(--fs-base);
+}
+/* The consult dock never prints, so the print view does not show it either. */
+body.print-view .dock {
+  display: none;
+}
+body.print-view .shell[data-dock='open'] {
+  grid-template-columns: var(--nav-width) minmax(0, 1fr);
+}
+.printable h1 {
+  font-size: 22pt;
+  margin-bottom: 4pt;
+}
+.printable h2 {
+  font-size: 14pt;
+  margin: 14pt 0 6pt;
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: 2pt;
+}
+.printable .meta {
+  color: var(--text-muted);
+  font-size: 0.9em;
+  margin-bottom: 10pt;
+}
+.printable table {
+  font-size: 0.92em;
+}
+.printable .footer {
+  margin-top: 16pt;
+  font-size: 9pt;
+  color: var(--text-faint);
+  border-top: 1px solid var(--border);
+  padding-top: 4pt;
+}

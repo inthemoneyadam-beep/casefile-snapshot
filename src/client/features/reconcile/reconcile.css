@@ -1,0 +1,501 @@
+/*
+ * Quiet checks and reconciliation. Colours come from tokens.css only: red
+ * (--bad) marks a bit of information that disagrees with a clinical record;
+ * ochre (--warn) marks an event whose documents disagree with no record yet.
+ */
+
+/* A row whose value disagrees with a clinical record: a red marker on the left. */
+.data-table tbody tr.inaccurate-row,
+.data-table tbody tr.inaccurate-row.selected {
+  box-shadow: inset 3px 0 0 var(--bad);
+}
+.labs-results tr.inaccurate-row > td:first-child,
+.brief-table tr.inaccurate-row > td:first-child {
+  box-shadow: inset 3px 0 0 var(--bad);
+  padding-left: var(--sp-4);
+}
+.rc-bad {
+  color: var(--bad);
+}
+
+/* The one-line trust sentence and the closed Override under it. */
+.trust-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-size: var(--fs-md);
+}
+.trust-line {
+  color: var(--text-muted);
+  line-height: var(--lh-table);
+}
+.trust-line strong {
+  color: var(--text);
+  font-weight: 500;
+}
+.trust-line.inaccurate strong {
+  color: var(--bad);
+}
+.trust-line.conflict strong {
+  color: var(--warn);
+}
+/* "Your answer": a plain disclosure that reads as an action (the accent text colour, a caret), closed by default. */
+.trust-override > summary {
+  cursor: pointer;
+  color: var(--accent-strong);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  width: max-content;
+}
+.trust-override > summary:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.trust-override[open] > summary {
+  color: var(--text);
+}
+.trust-override-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: var(--sp-4) 0 0;
+}
+.trust-override-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+.trust-override-buttons .btn.current {
+  border-color: var(--accent);
+  color: var(--text);
+}
+.trust-override-hint {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* The reason box for "The record is wrong" / "This one is right". */
+.reason-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-5);
+  border: 1px solid var(--border-strong);
+  border-left: 2px solid var(--bad);
+  border-radius: var(--radius);
+  background: var(--surface);
+  max-width: 640px;
+}
+.reason-box textarea {
+  width: 100%;
+  min-height: 56px;
+}
+.reason-box .hint {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* A document summary row: the small override button and its row underneath. */
+.brief-override {
+  border: 0;
+  background: transparent;
+  padding: 0 var(--sp-1);
+  color: var(--accent-strong);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.brief-override:hover,
+.brief-override[aria-expanded='true'] {
+  color: var(--text-muted);
+  text-decoration: underline;
+}
+.brief-table tr.brief-override-row > td {
+  padding: var(--sp-3) 0 var(--sp-5);
+  white-space: normal;
+}
+/* What the record says under an inaccurate (or needs-a-source) line of a document summary: visible, not only in
+   the tag's tooltip. The line above it drops its rule so the two read as one. */
+.brief-table tr.has-reason > td {
+  border-bottom-color: transparent;
+}
+.brief-table tr.brief-reason-row > td {
+  padding-top: 0;
+  padding-bottom: var(--sp-2);
+  font-size: var(--fs-sm);
+}
+
+/* The Reconciliation page. */
+.rc-says {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+.rc-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.rc-group-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  font-size: var(--fs-md);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--sp-2);
+}
+.rc-group-head .n {
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+.rc-mention {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--sp-2) var(--sp-5);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--fs-md);
+}
+.rc-mention-doc {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-4);
+  min-width: 0;
+}
+.rc-mention-statement {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-table);
+}
+/* "Not compared: the lab report gives ..." under a mention the app could not compare with its record. */
+.rc-mention-why {
+  grid-column: 1 / -1;
+  font-size: var(--fs-sm);
+}
+.rc-mention-actions {
+  display: flex;
+  /* This one is right and It's wrong side by side; on a narrow screen they stack rather than squeeze the document. */
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--sp-3);
+  align-items: flex-start;
+}
+/* The reason box opens inside the actions cell: that cell then takes the whole width on a row of its own, so the
+   document, page, date and tag beside it keep theirs. */
+.rc-mention-actions:has(> .reason-box) {
+  grid-column: 1 / -1;
+}
+.rc-record {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-4) var(--sp-5);
+  border: 1px solid var(--border-strong);
+  border-left: 2px solid var(--ok);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.rc-source {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+.rc-source-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3) var(--sp-4);
+}
+.rc-source-row select {
+  max-width: 420px;
+}
+.rc-source-row input[type='search'] {
+  width: 200px;
+}
+.rc-uploads {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin: 0 var(--sp-7) var(--sp-5);
+}
+.rc-upload {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3) var(--sp-5);
+  padding: var(--sp-3) var(--sp-5);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: var(--fs-md);
+}
+.rc-upload .grow {
+  flex: 1;
+  min-width: 220px;
+}
+.rc-cell-says {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+}
+.rc-cell-says.wrong {
+  color: var(--bad);
+}
+/* Needs a source: "records disagree" is a short tag before the subject, so the cell's ellipsis never cuts it off. */
+.rc-subject .tag {
+  margin-right: var(--sp-3);
+}
+.rc-warn {
+  color: var(--warn);
+}
+
+/* Two clinical records disagree: each record with "This one is right", and "Both happened". */
+/* Two clinical records disagree: a section like the others, its records marked with an ochre rule. */
+.rc-disagree .rc-mention {
+  padding-left: var(--sp-4);
+  box-shadow: inset 2px 0 0 var(--warn);
+}
+.rc-disagree .rc-mention:last-of-type {
+  border-bottom: 0;
+}
+.rc-mention-says {
+  grid-column: 1 / -1;
+  font-size: var(--fs-md);
+}
+
+/* The plain warning before a document already here becomes an official record. */
+.rc-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3) var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  border: 1px solid var(--border-strong);
+  border-left: 2px solid var(--warn);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: var(--fs-md);
+  max-width: 720px;
+}
+.rc-confirm .grow {
+  flex: 1;
+  min-width: 240px;
+  line-height: var(--lh-table);
+}
+
+/* What a record just added did to its event. */
+.rc-upload-outcome {
+  display: block;
+  margin-top: var(--sp-1);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-table);
+}
+.rc-upload.unsettled {
+  border-left: 2px solid var(--warn);
+}
+
+/* A scan not compared with its report (scan wording is not judged automatically): the report's whole impression
+   under the scan's own, read side by side. Prose like the scan's impression: serif, measured line. */
+.rc-report-words {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+  padding-left: var(--sp-4);
+  border-left: 2px solid var(--border-strong);
+}
+.rc-report-impression {
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-prose);
+  max-width: 68ch;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * The Reconciliation page, rebuilt on the shared system (2026-10 overhaul).
+ * --------------------------------------------------------------------------- */
+
+/* What the chosen list holds, in one sentence under the toolbar. */
+.rc-tab-intro {
+  margin: 0;
+  padding: var(--sp-4) var(--page-x);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  box-shadow: inset 3px 0 0 var(--border-strong);
+}
+.rc-tab-intro strong {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+.rc-tab-intro.bad {
+  box-shadow: inset 3px 0 0 var(--bad);
+}
+.rc-tab-intro.warn {
+  box-shadow: inset 3px 0 0 var(--warn);
+}
+
+/* The sentence under an event's header: what it means and what to do. */
+.rc-sentence {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  max-width: 80ch;
+}
+.rc-says.big {
+  font-size: var(--fs-base);
+}
+.rc-record-says {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-4);
+}
+.rc-mention-title {
+  font-weight: var(--fw-medium);
+}
+.rc-mention-doc time {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.rc-group + .rc-group {
+  margin-top: var(--sp-5);
+}
+.rc-group-head {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  color: var(--text);
+}
+details.rc-group > summary.rc-group-head {
+  cursor: pointer;
+  list-style: none;
+}
+details.rc-group > summary.rc-group-head::before {
+  content: '▸';
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  margin-right: var(--sp-2);
+}
+details.rc-group[open] > summary.rc-group-head::before {
+  content: '▾';
+}
+.rc-group-head .n {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* Settle it: Upload the record, or a document already in the case. */
+.rc-source-pick {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.rc-source-label {
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+}
+.rc-source-row select {
+  max-width: 440px;
+  min-width: 240px;
+}
+
+/* An inaccurate detail: what the document says above what the record says, each on its own card, never squeezed. */
+.rc-compare-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--sp-4);
+}
+.rc-compare-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-4) var(--sp-5);
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  min-width: 0;
+}
+.rc-compare-card.wrong {
+  border-left-color: var(--bad);
+}
+.rc-compare-card.wrong .rc-says {
+  color: var(--bad);
+}
+.rc-compare-card.record {
+  border-left-color: var(--ok);
+}
+.rc-compare-label {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.rc-compare-value {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+/* Your answer: each answer a button with what it does beside it, all the same weight. */
+.rc-answers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.rc-answer {
+  display: grid;
+  grid-template-columns: minmax(11.5em, max-content) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-5);
+}
+.rc-answer .btn {
+  justify-content: center;
+}
+.rc-answer-words {
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.4;
+}
+
+/* A page to open, drawn as a small text button. */
+.rc-link-btn:hover {
+  text-decoration: none;
+}
+.rc-subject .tag {
+  margin-right: var(--sp-3);
+}
+/* A group's header: "Says 62 mg/dL on 2024-03-18 · 4 mentions" stays whole; the note after it wraps. */
+.rc-group-head {
+  flex-wrap: wrap;
+  row-gap: var(--sp-1);
+}
+.rc-group-head > span:first-child,
+.rc-group-head > .n {
+  white-space: nowrap;
+}
+
+/* Settled: a group that is a second reading of the same day, matched by its mentions (its checks are green). */
+.rc-ok {
+  color: var(--ok);
+}
+/* Settled list: the kind of event after its subject ("CSF protein · lab value"), so Settled by has the room. */
+.rc-subject-kind {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+/* "around" before an event's date in the list, small and muted, so the date column stays narrow. */
+.rc-when-q {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
